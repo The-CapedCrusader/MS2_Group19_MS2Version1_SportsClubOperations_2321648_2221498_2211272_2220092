@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.DashboardTransferWindowManager">
+   <children>
+      <Button layoutX="69.0" layoutY="211.0" mnemonicParsing="false" onAction="#goal5" prefHeight="80.0" prefWidth="94.0" text="Goal5" />
+      <TextArea layoutX="163.0" layoutY="37.0" prefHeight="32.0" prefWidth="226.0" text="Transfer Window Manager Dashboard." />
+      <Button layoutX="69.0" layoutY="99.0" mnemonicParsing="false" onAction="#goal1" prefHeight="80.0" prefWidth="94.0" text="Goal1" />
+      <Button layoutX="476.0" layoutY="211.0" mnemonicParsing="false" onAction="#goal8" prefHeight="80.0" prefWidth="94.0" text="Goal8" />
+      <Button layoutX="476.0" layoutY="99.0" mnemonicParsing="false" onAction="#goal4" prefHeight="80.0" prefWidth="94.0" text="Goal4" />
+      <Button layoutX="208.0" layoutY="211.0" mnemonicParsing="false" onAction="#goal6" prefHeight="80.0" prefWidth="94.0" text="Goal6" />
+      <Button layoutX="208.0" layoutY="99.0" mnemonicParsing="false" onAction="#goal2" prefHeight="80.0" prefWidth="94.0" text="Goal2" />
+      <Button layoutX="353.0" layoutY="211.0" mnemonicParsing="false" onAction="#goal7" prefHeight="80.0" prefWidth="94.0" text="Goal7" />
+      <Button layoutX="353.0" layoutY="99.0" mnemonicParsing="false" onAction="#goal3" prefHeight="80.0" prefWidth="94.0" text="Goal3" />
+   </children>
+</AnchorPane>
