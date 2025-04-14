@@ -39,4 +39,8 @@ public class DashboardHeadCoach
     @javafx.fxml.FXML
     public void goal3(ActionEvent actionEvent) {
     }
+
+    @javafx.fxml.FXML
+    public void signoutHC(ActionEvent actionEvent) {
+    }
 }

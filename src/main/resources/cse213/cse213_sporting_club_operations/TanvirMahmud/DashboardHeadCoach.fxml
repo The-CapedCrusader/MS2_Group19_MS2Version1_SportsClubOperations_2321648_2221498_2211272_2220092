@@ -18,6 +18,7 @@
             <Button layoutX="208.0" layoutY="99.0" mnemonicParsing="false" onAction="#goal2" prefHeight="80.0" prefWidth="94.0" text="HCGoal2" />
             <Button layoutX="353.0" layoutY="211.0" mnemonicParsing="false" onAction="#goal7" prefHeight="80.0" prefWidth="94.0" text="HCGoal7" />
             <Button layoutX="353.0" layoutY="99.0" mnemonicParsing="false" onAction="#goal3" prefHeight="80.0" prefWidth="94.0" text="HCGoal3" />
+            <Button layoutX="438.0" layoutY="323.0" mnemonicParsing="false" onAction="#signoutHC" prefHeight="38.0" prefWidth="104.0" text="Sign Out" />
          </children>
       </AnchorPane>
    </children>
