@@ -39,4 +39,8 @@ public class DashboardTransferWindowManager
     @javafx.fxml.FXML
     public void goal3(ActionEvent actionEvent) {
     }
+
+    @javafx.fxml.FXML
+    public void signout(ActionEvent actionEvent) {
+    }
 }
