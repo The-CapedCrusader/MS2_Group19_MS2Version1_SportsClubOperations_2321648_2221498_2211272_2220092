@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cse213.fproject.Login">
+    <children>
+        <VBox alignment="CENTER" spacing="20" style="-fx-background-color: linear-gradient(to bottom, #2c3e50, #3498db);" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <children>
+                <ImageView fitHeight="100" fitWidth="100" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@sportsClub.jpg" />
+                    </image>
+                </ImageView>
+
+                <!-- Rest of your FXML remains the same -->
+                <Text fill="WHITE" text="Sports Club Management System">
+                    <font>
+                        <Font name="System Bold" size="24" />
+                    </font>
+                </Text>
+
+                <TabPane prefWidth="400" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab text="Login">
+                            <content>
+                                <VBox spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+                                    <TextField fx:id="loginUserNo" promptText="7-digit User ID" style="-fx-pref-width: 250;"/>
+                                    <ComboBox fx:id="loginDepartment" promptText="Select Department" style="-fx-pref-width: 250;"/>
+                                    <PasswordField fx:id="loginPassword" promptText="Password" style="-fx-pref-width: 250;"/>
+                                    <Button fx:id="loginButton" text="Login" style="-fx-pref-width: 250; -fx-background-color: #2ecc71; -fx-text-fill: white;" onAction="#handleLogin"/>
+                                </VBox>
+                            </content>
+                        </Tab>
+                        <Tab text="Sign Up">
+                            <content>
+                                <VBox spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+                                    <TextField fx:id="signupUserNo" promptText="7-digit User ID" style="-fx-pref-width: 250;"/>
+                                    <ComboBox fx:id="signupDepartment" promptText="Select Department" style="-fx-pref-width: 250;"/>
+                                    <PasswordField fx:id="signupPassword" promptText="Password (min 6 chars)" style="-fx-pref-width: 250;"/>
+                                    <Button fx:id="signupButton" text="Sign Up" style="-fx-pref-width: 250; -fx-background-color: #3498db; -fx-text-fill: white;" onAction="#handleSignup"/>
+                                </VBox>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </children>
+            <padding>
+                <Insets bottom="20" left="20" right="20" top="20"/>
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>
