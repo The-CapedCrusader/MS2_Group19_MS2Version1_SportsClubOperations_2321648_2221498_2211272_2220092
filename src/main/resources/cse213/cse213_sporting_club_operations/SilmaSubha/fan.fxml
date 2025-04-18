@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane style="-fx-border-radius: 30; -fx-background-color: green;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cse213.fproject.FanDashboardController">
+    <children>
+      <Button fx:id="logoutButton" layoutX="1143.0" layoutY="21.0" onAction="#handleLogout" prefWidth="120.0" text="Logout" />
+        <TabPane layoutX="65.0" layoutY="105.0" prefHeight="484.0" prefWidth="1220.0" style="-fx-background-color: CCFF99; -fx-border-color: black;" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <!-- Home Tab -->
+                <Tab text="Home">
+                    <content>
+                        <AnchorPane prefHeight="463.0" prefWidth="1018.0" style="-fx-background-color: ffffff;">
+                            <children>
+                                <Text layoutX="49.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="See your Booked Ticket">
+                                    <font>
+                                        <Font name="System Bold Italic" size="29.0" />
+                                    </font>
+                                </Text>
+                                <TableView fx:id="homeTable" layoutX="52.0" layoutY="108.0">
+                                    <columns>
+                                        <TableColumn fx:id="homeNameCol" prefWidth="100.0" text="Name" />
+                                        <TableColumn fx:id="homeMatchCol" prefWidth="100.0" text="Match" />
+                                        <TableColumn fx:id="homeVenueCol" prefWidth="100.0" text="Venue" />
+                                        <TableColumn fx:id="homeDateCol" prefWidth="100.0" text="Date" />
+                                        <TableColumn fx:id="homeTypeCol" prefWidth="100.0" text="Ticket Type" />
+                                        <TableColumn fx:id="homePriceCol" prefWidth="100.0" text="Price" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+
+                <!-- Match Tab -->
+                <Tab text="Match">
+                    <content>
+                        <AnchorPane style="-fx-background-color: ffffff;">
+                            <children>
+                                <Text layoutX="73.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Today Match Will Be ">
+                                    <font>
+                                        <Font name="System Bold" size="30.0" />
+                                    </font>
+                                </Text>
+                                <TableView fx:id="matchTable" layoutX="74.0" layoutY="119.0">
+                                    <columns>
+                                        <TableColumn fx:id="matchMatchCol" prefWidth="129.0" text="Match" />
+                                        <TableColumn fx:id="matchVenueCol" prefWidth="165.0" text="Venue" />
+                                        <TableColumn fx:id="matchDateCol" prefWidth="151.0" text="Date" />
+                                        <TableColumn fx:id="matchPriceCol" prefWidth="132.00006103515625" text="Price" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+
+                <!-- Book A Ticket Tab -->
+                <Tab text="Book A Ticket ">
+                    <content>
+                        <AnchorPane style="-fx-background-color: ffffff;">
+                            <children>
+                                <TextField fx:id="nameField" layoutX="76.0" layoutY="89.0" promptText="Name" />
+                                <ComboBox fx:id="matchBox" layoutX="80.0" layoutY="170.0" prefWidth="150.0" promptText="Match" />
+                                <ComboBox fx:id="dateBox" layoutX="462.0" layoutY="92.0" prefWidth="150.0" promptText="Date" />
+                                <ComboBox fx:id="venueBox" layoutX="78.0" layoutY="242.0" prefWidth="150.0" promptText="Venue" />
+                                <ComboBox fx:id="ticketTypeBox" layoutX="464.0" layoutY="170.0" prefWidth="150.0" promptText="Ticket Type" />
+                                <ComboBox fx:id="priceBox" layoutX="466.0" layoutY="241.0" prefWidth="150.0" promptText="Price" />
+                                <Button layoutX="301.0" layoutY="322.0" onAction="#handlePayment" text="Pay The Payment" />
+                        <Text layoutX="31.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Match:" />
+                        <Text layoutX="25.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Venue:" />
+                        <Text layoutX="29.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
+                        <Text layoutX="414.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" />
+                        <Text layoutX="385.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket type:" />
+                        <Text layoutX="401.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price:" />
+                        <Text fill="RED" layoutX="216.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Book Your Ticket">
+                           <font>
+                              <Font name="System Bold" size="33.0" />
+                           </font>
+                        </Text>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+
+                <!-- Placeholder Tabs -->
+                <Tab text="Merchandise">
+                    <content>
+                        <AnchorPane style="-fx-background-color: ffffff;">
+                     <children>
+                        <ImageView fitHeight="107.0" fitWidth="157.0" layoutX="43.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@gol1.jpg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="111.0" fitWidth="102.0" layoutX="327.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@gol2.jpeg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="104.0" fitWidth="101.0" layoutX="551.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@gol3.jpeg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="111.0" fitWidth="108.0" layoutX="768.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@gol4.jpg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="118.0" fitWidth="120.0" layoutX="54.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@gol5.jpg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="120.0" fitWidth="108.0" layoutX="315.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@gol6.jpeg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="123.0" fitWidth="104.0" layoutX="553.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@gol7.jpeg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="115.0" fitWidth="120.0" layoutX="775.0" layoutY="269.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@gol8.png" />
+                           </image>
+                        </ImageView>
+                        <Button layoutX="83.0" layoutY="216.0" mnemonicParsing="false" text="Buy Now" />
+                        <Button layoutX="343.0" layoutY="214.0" mnemonicParsing="false" text="Buy Now " />
+                        <Button layoutX="564.0" layoutY="211.0" mnemonicParsing="false" text="Buy Now" />
+                        <Button layoutX="793.0" layoutY="220.0" mnemonicParsing="false" text="Buy Now" />
+                        <Button layoutX="86.0" layoutY="394.0" mnemonicParsing="false" text="Buy Now " />
+                        <Button layoutX="334.0" layoutY="388.0" mnemonicParsing="false" text="Buy Now " />
+                        <Button layoutX="568.0" layoutY="380.0" mnemonicParsing="false" text="Buy Now " />
+                        <Button layoutX="793.0" layoutY="391.0" mnemonicParsing="false" text="Buy Now " />
+                        <Text fill="#d00000" layoutX="343.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Be Authentic. Be Original.">
+                           <font>
+                              <Font name="System Bold" size="34.0" />
+                           </font>
+                        </Text>
+                        <TableView layoutX="929.0" layoutY="90.0" prefHeight="330.0" prefWidth="266.0">
+                          <columns>
+                            <TableColumn minWidth="-1.0" prefWidth="75.0" text="Size" />
+                            <TableColumn minWidth="-1.0" prefWidth="119.3095703125" text="Chest" />
+                              <TableColumn minWidth="-1.0" prefWidth="71.1904296875" text="Lenght" />
+                          </columns>
+                        </TableView>
+                        <Text layoutX="927.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Size Chart">
+                           <font>
+                              <Font name="System Bold" size="34.0" />
+                           </font>
+                        </Text>
+                     </children></AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="MemberShip">
+                    <content>
+                        <AnchorPane style="-fx-background-color: ffffff;">
+                     <children>
+                        <Text layoutX="374.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buy MemberShip" wrappingWidth="308.6324768066406">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Text>
+                        <TextFlow layoutX="73.0" layoutY="162.0" prefHeight="200.0" prefWidth="365.0" style="-fx-background-color: green;" />
+                        <TextFlow layoutX="570.0" layoutY="155.0" prefHeight="200.0" prefWidth="365.0" style="-fx-background-color: green;" />
+                        <Text layoutX="73.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Monthly Pass:">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="570.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Yearly Pass:">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Text>
+                        <Button layoutX="181.0" layoutY="378.0" mnemonicParsing="false" text="Buy You Membership card" />
+                        <Button layoutX="679.0" layoutY="371.0" mnemonicParsing="false" text="Buy You Membership card" />
+                     </children></AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <Text layoutX="125.0" layoutY="60.0" text="SPORTS CLUB FAN DASHBOARD">
+            <font>
+                <Font name="Adelle Sans Devanagari Extrabold" size="38.0" />
+            </font>
+        </Text>
+    </children>
+</AnchorPane>
