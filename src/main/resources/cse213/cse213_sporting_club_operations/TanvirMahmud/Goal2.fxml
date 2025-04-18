@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.Goal2"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.Goal2">
+   <children>
+      <Button layoutX="463.0" layoutY="330.0" mnemonicParsing="false" onAction="#goal2Dashboard" text="Dashboard" />
+      <TableView fx:id="table" layoutX="143.0" layoutY="59.0" prefHeight="200.0" prefWidth="277.0">
+        <columns>
+          <TableColumn fx:id="acTC" prefWidth="135.2000732421875" text="Accepted Players" />
+          <TableColumn fx:id="rejTC" minWidth="8.800048828125" prefWidth="141.59991455078125" text="Rejected Players" />
+        </columns>
+      </TableView>
+      <Button layoutX="256.0" layoutY="317.0" mnemonicParsing="false" onAction="#refreshData" text="Refresh" />
+   </children>
 </AnchorPane>

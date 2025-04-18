@@ -6,13 +6,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.Login">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.LoginController">
    <children>
       <TextField fx:id="usernameTF" layoutX="42.0" layoutY="40.0" promptText="Username" />
       <TextField fx:id="passwordTF" layoutX="42.0" layoutY="94.0" promptText="Password" />
       <ComboBox fx:id="userTypeCB" layoutX="41.0" layoutY="150.0" prefWidth="150.0" promptText="User type" />
       <Button layoutX="41.0" layoutY="200.0" mnemonicParsing="false" onAction="#login" prefHeight="26.0" prefWidth="150.0" text="Log in" />
       <Label fx:id="loginErrorLabel" layoutX="40.0" layoutY="259.0" prefHeight="18.0" prefWidth="150.0" />
+      <Button layoutX="39.0" layoutY="256.0" mnemonicParsing="false" onAction="#loginSignup" prefHeight="26.0" prefWidth="150.0" text="Sign Up" />
    </children>
 </AnchorPane>
