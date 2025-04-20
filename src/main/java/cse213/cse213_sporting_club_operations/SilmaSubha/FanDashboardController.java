@@ -26,6 +26,7 @@ public class FanDashboardController {
     @FXML private ComboBox<String> venueBox;
     @FXML private ComboBox<String> ticketTypeBox;
     @FXML private ComboBox<String> priceBox;
+    //update
 
     private final ObservableList<Ticket> ticketList = FXCollections.observableArrayList();
     private final String DATA_FILE = "tickets.bin";
