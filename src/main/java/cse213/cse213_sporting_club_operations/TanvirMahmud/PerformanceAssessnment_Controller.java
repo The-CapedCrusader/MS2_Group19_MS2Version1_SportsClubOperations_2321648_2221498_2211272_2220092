@@ -272,7 +272,7 @@ public class PerformanceAssessnment_Controller {
         alert.showAndWait();
     }
 
-    // Model class for player statistics
+
     public static class PlayerStats {
         private final SimpleStringProperty playerName;
         private final SimpleStringProperty position;

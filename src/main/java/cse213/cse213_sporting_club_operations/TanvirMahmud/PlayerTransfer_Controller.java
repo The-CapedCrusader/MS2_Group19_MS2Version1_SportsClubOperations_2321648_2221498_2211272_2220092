@@ -462,6 +462,6 @@ public class PlayerTransfer_Controller {
         SceneSwitcher.switchTo("DashboardTransferWindowManager.fxml", actionEvent);
     }
 
-    // Transfer record class
+
 
 }

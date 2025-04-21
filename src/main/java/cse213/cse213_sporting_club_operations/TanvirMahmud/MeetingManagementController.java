@@ -401,7 +401,7 @@ public class MeetingManagementController {
         }
     }
 
-    // Data model for meeting records
+
     public static class MeetingRecord {
         private final SimpleStringProperty title;
         private final SimpleStringProperty type;
