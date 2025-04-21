@@ -6,205 +6,167 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal1">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal1">
     <children>
-        <VBox layoutX="14.0" layoutY="14.0" prefHeight="772.0" prefWidth="1172.0" spacing="10.0">
-            <children>
-                <Label text="Team Selection &amp; Tactics">
-                    <font>
-                        <Font name="System Bold" size="20.0" />
-                    </font>
-                </Label>
-                <Separator prefWidth="200.0" />
-                <HBox prefHeight="300.0" prefWidth="1172.0" spacing="20.0">
+        <SplitPane dividerPositions="0.65" layoutX="14.0" layoutY="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <!-- Main Content Panel -->
+                <VBox spacing="10.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
                     <children>
-                        <VBox prefHeight="300.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <Label text="Squad Players (Double-click to add)">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <TableView fx:id="squadTable" prefHeight="270.0" prefWidth="350.0">
-                                    <columns>
-                                        <TableColumn fx:id="nameColumn" prefWidth="160.0" text="Name" />
-                                        <TableColumn fx:id="positionColumn" prefWidth="60.0" text="Position" />
-                                        <TableColumn fx:id="fitnessColumn" prefWidth="60.0" text="Fitness" />
-                                        <TableColumn fx:id="formColumn" prefWidth="70.0" text="Value" />
-                                    </columns>
-                                </TableView>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="300.0" prefWidth="450.0" spacing="10.0">
-                            <children>
-                                <Label text="Starting Lineup (Double-click to remove)">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <TableView fx:id="startingLineupTable" prefHeight="270.0" prefWidth="450.0">
-                                    <columns>
-                                        <TableColumn fx:id="lineupNameColumn" prefWidth="180.0" text="Name" />
-                                        <TableColumn fx:id="lineupPositionColumn" prefWidth="80.0" text="Position" />
-                                        <TableColumn fx:id="lineupNumberColumn" prefWidth="70.0" text="Number" />
-                                        <TableColumn fx:id="lineupRoleColumn" prefWidth="120.0" text="Role" />
-                                    </columns>
-                                </TableView>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="300.0" prefWidth="330.0" spacing="10.0">
-                            <children>
-                                <Label text="Formation Visualization">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <VBox fx:id="fieldVisualization" alignment="CENTER" prefHeight="270.0" prefWidth="330.0" />
-                            </children>
-                        </VBox>
+                        <!-- Header with title -->
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Team Lineup Manager" />
+
+                        <!-- Match Info Section -->
+                        <TitledPane animated="false" collapsible="false" text="Match Information">
+                            <content>
+                                <GridPane hgap="10.0" vgap="10.0">
+                                    <padding>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </padding>
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <VBox spacing="5.0">
+                                            <Label text="Match Date" />
+                                            <DatePicker fx:id="matchDatePicker" />
+                                        </VBox>
+                                        <VBox spacing="5.0" GridPane.columnIndex="1">
+                                            <Label text="Opponent" />
+                                            <TextField fx:id="opponentField" />
+                                        </VBox>
+                                        <VBox spacing="5.0" GridPane.columnIndex="2">
+                                            <Label text="Venue" />
+                                            <ComboBox fx:id="venueComboBox" prefWidth="150.0" />
+                                        </VBox>
+                                        <VBox spacing="5.0" GridPane.columnIndex="3">
+                                            <Label text="Competition" />
+                                            <ComboBox fx:id="competitionComboBox" prefWidth="150.0" />
+                                        </VBox>
+                                    </children>
+                                </GridPane>
+                            </content>
+                        </TitledPane>
+
+                        <!-- Tactical Setup Section -->
+                        <TitledPane animated="false" collapsible="false" text="Tactical Setup">
+                            <content>
+                                <GridPane hgap="10.0" vgap="10.0">
+                                    <padding>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </padding>
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <VBox spacing="5.0">
+                                            <Label text="Formation" />
+                                            <ComboBox fx:id="formationComboBox" prefWidth="150.0" />
+                                        </VBox>
+                                        <VBox spacing="5.0" GridPane.columnIndex="1">
+                                            <Label text="Defensive Shape" />
+                                            <ComboBox fx:id="defensiveShapeComboBox" prefWidth="150.0" />
+                                        </VBox>
+                                        <VBox spacing="5.0" GridPane.columnIndex="2">
+                                            <Label text="Offensive Style" />
+                                            <ComboBox fx:id="offensiveStyleComboBox" prefWidth="150.0" />
+                                        </VBox>
+                                    </children>
+                                </GridPane>
+                            </content>
+                        </TitledPane>
+
+                        <!-- Tables Section -->
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" VBox.vgrow="ALWAYS">
+                            <items>
+                                <!-- Squad Table -->
+                                <VBox spacing="5.0">
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                    <Label text="Available Squad (Double-click to add)" />
+                                    <TableView fx:id="squadTable" VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn fx:id="nameColumn" prefWidth="150.0" text="Name" />
+                                            <TableColumn fx:id="positionColumn" prefWidth="75.0" text="Position" />
+                                            <TableColumn fx:id="fitnessColumn" prefWidth="75.0" text="Fitness" />
+                                            <TableColumn fx:id="formColumn" prefWidth="75.0" text="Value" />
+                                        </columns>
+                                    </TableView>
+                                </VBox>
+
+                                <!-- Lineup Table -->
+                                <VBox spacing="5.0">
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                    <Label text="Starting Lineup (Double-click to remove)" />
+                                    <TableView fx:id="startingLineupTable" VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn fx:id="lineupNameColumn" prefWidth="150.0" text="Name" />
+                                            <TableColumn fx:id="lineupPositionColumn" prefWidth="75.0" text="Position" />
+                                            <TableColumn fx:id="lineupNumberColumn" prefWidth="75.0" text="Number" />
+                                            <TableColumn fx:id="lineupRoleColumn" prefWidth="75.0" text="Role" />
+                                        </columns>
+                                    </TableView>
+                                    <HBox spacing="10.0">
+                                        <padding>
+                                            <Insets top="5.0" />
+                                        </padding>
+                                        <Button mnemonicParsing="false" onAction="#saveLineup" text="Save Lineup" />
+                                        <Button mnemonicParsing="false" onAction="#clearLineup" text="Clear Lineup" />
+                                        <Button mnemonicParsing="false" onAction="#dashboard" text="Back to Dashboard" />
+                                    </HBox>
+                                </VBox>
+                            </items>
+                        </SplitPane>
                     </children>
-                </HBox>
-                <Separator prefWidth="200.0" />
-                <HBox prefHeight="120.0" prefWidth="1172.0" spacing="20.0">
+                </VBox>
+
+                <!-- Side Panel -->
+                <VBox spacing="10.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
                     <children>
-                        <VBox prefHeight="120.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <Label text="Match Information">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="80.0" text="Date:" />
-                                        <DatePicker fx:id="matchDatePicker" prefHeight="25.0" prefWidth="240.0" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="80.0" text="Opponent:" />
-                                        <TextField fx:id="opponentField" prefHeight="25.0" prefWidth="240.0" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="80.0" text="Venue:" />
-                                        <ComboBox fx:id="venueComboBox" prefHeight="25.0" prefWidth="240.0" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="120.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <Label text="Team Setup">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="100.0" text="Formation:" />
-                                        <ComboBox fx:id="formationComboBox" prefHeight="25.0" prefWidth="220.0" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="100.0" text="Competition:" />
-                                        <ComboBox fx:id="competitionComboBox" prefHeight="25.0" prefWidth="220.0" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Button mnemonicParsing="false" onAction="#clearLineup" prefHeight="30.0" prefWidth="120.0" text="Clear Lineup" />
-                                        <Button mnemonicParsing="false" onAction="#saveLineup" prefHeight="30.0" prefWidth="120.0" text="Save Lineup" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="120.0" prefWidth="450.0" spacing="10.0">
-                            <children>
-                                <Label text="Saved Lineups">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <HBox prefHeight="90.0" prefWidth="450.0" spacing="10.0">
-                                    <children>
-                                        <ListView fx:id="savedLineupsListView" prefHeight="90.0" prefWidth="350.0" />
-                                        <Button mnemonicParsing="false" onAction="#deleteLineup" prefHeight="30.0" prefWidth="90.0" text="Delete" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
+                        <!-- Saved Lineups -->
+                        <TitledPane animated="false" collapsible="false" text="Saved Lineups" VBox.vgrow="SOMETIMES">
+                            <content>
+                                <VBox spacing="5.0">
+                                    <ListView fx:id="savedLineupsListView" prefHeight="200.0" VBox.vgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" onAction="#deleteLineup" text="Delete Selected Lineup" />
+                                </VBox>
+                            </content>
+                        </TitledPane>
                     </children>
-                </HBox>
-                <Separator prefWidth="200.0" />
-                <Label text="Tactical Instructions">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Label>
-                <HBox prefHeight="200.0" prefWidth="1172.0" spacing="20.0">
-                    <children>
-                        <VBox prefHeight="200.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="120.0" text="Defensive Shape:" />
-                                        <ComboBox fx:id="defensiveShapeComboBox" prefHeight="25.0" prefWidth="200.0" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="120.0" text="Offensive Style:" />
-                                        <ComboBox fx:id="offensiveStyleComboBox" prefHeight="25.0" prefWidth="200.0" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="120.0" text="Pressing Style:" />
-                                        <ComboBox fx:id="pressingComboBox" prefHeight="25.0" prefWidth="200.0" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="120.0" text="Game Tempo:" />
-                                        <Slider fx:id="tempoSlider" majorTickUnit="25.0" min="25.0" minorTickCount="5" prefHeight="25.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" value="50.0" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="450.0" spacing="10.0">
-                            <children>
-                                <Label text="Notes &amp; Special Instructions:">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
-                                </Label>
-                                <TextArea fx:id="tacticNotesArea" prefHeight="160.0" prefWidth="450.0" promptText="Enter tactical notes, set-piece instructions, or player-specific directives here..." wrapText="true" />
-                            </children>
-                        </VBox>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="330.0" spacing="15.0">
-                            <children>
-                                <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="200.0" text="Generate Match Instructions" />
-                                <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="200.0" text="Export to PDF" />
-                                <Button mnemonicParsing="false" onAction="#dashboard" prefHeight="35.0" prefWidth="200.0" text="Dashboard" />
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-            </children>
-        </VBox>
+                </VBox>
+            </items>
+        </SplitPane>
     </children>
 </AnchorPane>

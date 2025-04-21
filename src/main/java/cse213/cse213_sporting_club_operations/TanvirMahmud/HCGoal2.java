@@ -17,7 +17,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
+import java.util.*;
 
 public class HCGoal2 {
     // Session planning
@@ -34,8 +34,6 @@ public class HCGoal2 {
     @FXML private TextArea sessionObjectivesArea;
     @FXML private TextArea equipmentRequiredArea;
 
-    // Player group management
-    @FXML private ComboBox<String> playerGroupComboBox;
     @FXML private ListView<String> selectedPlayersListView;
     @FXML private TextField searchPlayerField;
     @FXML private ListView<String> availablePlayersListView;
@@ -53,9 +51,14 @@ public class HCGoal2 {
     private ObservableList<TrainingSession> trainingSessions = FXCollections.observableArrayList();
     private ObservableList<String> availablePlayers = FXCollections.observableArrayList();
     private ObservableList<String> selectedPlayers = FXCollections.observableArrayList();
+    private ObservableList<String> savedLineups = FXCollections.observableArrayList();
+    private Map<String, List<HCGoal1.PlayerLineup>> lineupPlayers = new HashMap<>();
 
     @FXML
     public void initialize() {
+        // Initialize data directory
+        HeadCoachDataManager.initializeDataDirectory();
+
         // Initialize session type options
         sessionTypeComboBox.setItems(FXCollections.observableArrayList(
                 "Team Training", "Small Group Training", "Individual Session",
@@ -89,30 +92,23 @@ public class HCGoal2 {
         primaryFocusComboBox.setItems(focusOptions);
         secondaryFocusComboBox.setItems(focusOptions);
 
-        // Initialize player groups
-        playerGroupComboBox.setItems(FXCollections.observableArrayList(
-                "Full Squad", "Starting XI", "Defenders", "Midfielders",
-                "Forwards", "Goalkeepers", "Youth Players", "Injured Players"
-        ));
+
 
         // Set up default date to today
         sessionDatePicker.setValue(LocalDate.now());
 
-        // Setup players list
-        populateSamplePlayers();
+        // Setup players list from user.bin
+        loadPlayersFromUserBin();
+
+        // Load lineups from file
+        loadSavedLineupsFromFile();
 
         // Setup filter for player search
         searchPlayerField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterAvailablePlayers(newValue);
         });
 
-        // Setup player group selection action
-        playerGroupComboBox.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    if (newValue != null) {
-                        preSelectPlayerGroup(newValue);
-                    }
-                });
+
 
         // Setup training schedule table columns
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("sessionType"));
@@ -137,21 +133,92 @@ public class HCGoal2 {
         trainingScheduleTable.setItems(trainingSessions);
 
         // Add sample training sessions
-        addSampleTrainingSessions();
+        loadTrainingSessionsFromFile();
+
+        // If no sessions loaded, add sample sessions
+
     }
 
-    private void populateSamplePlayers() {
-        String[] players = {
-                "John Smith (GK)", "David Johnson (GK)",
-                "Michael Brown (DF)", "Robert Davis (DF)", "James Wilson (DF)", "James Harris (DF)",
-                "Daniel Martinez (MF)", "Paul Robinson (MF)", "Mark Thompson (MF)", "Steven Garcia (MF)",
-                "Andrew Clark (FW)", "Richard Lewis (FW)", "Thomas Lee (FW)", "Christopher Walker (FW)"
-        };
+    private void loadPlayersFromUserBin() {
+        // Clear current players
+        availablePlayers.clear();
 
-        availablePlayers.addAll(players);
+        // Load players from user.bin
+        ArrayList<Player> players = HeadCoachDataManager.loadPlayersFromUserBin();
+
+        if (players != null && !players.isEmpty()) {
+            for (Player player : players) {
+                availablePlayers.add(player.getName() + " (" + player.getPosition() + ")");
+            }
+        }
+
         availablePlayersListView.setItems(availablePlayers);
         selectedPlayersListView.setItems(selectedPlayers);
     }
+
+    private void loadSavedLineupsFromFile() {
+        // Clear current lineups
+        savedLineups.clear();
+        lineupPlayers.clear();
+
+        // Load lineups from file
+        List<String> lineups = HeadCoachDataManager.loadLineupsFromFile();
+
+        if (lineups != null && !lineups.isEmpty()) {
+            savedLineups.addAll(lineups);
+
+            // Load player data for each lineup
+            for (String lineup : lineups) {
+                Map<String, Object> config = HeadCoachDataManager.loadLineupConfiguration(lineup);
+                if (config != null && !config.isEmpty()) {
+                    @SuppressWarnings("unchecked")
+                    List<HCGoal1.PlayerLineup> players = (List<HCGoal1.PlayerLineup>) config.get("players");
+                    if (players != null && !players.isEmpty()) {
+                        lineupPlayers.put(lineup, players);
+                    }
+                }
+            }
+        }
+    }
+
+    private void showLineupSelectionDialog() {
+        if (savedLineups.isEmpty()) {
+            showAlert("No Lineups", "No saved lineups found. Create lineups in the Team Selection section first.", Alert.AlertType.WARNING);
+
+            return;
+        }
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(savedLineups.get(0), savedLineups);
+        dialog.setTitle("Select Lineup");
+        dialog.setHeaderText("Choose a saved lineup to load players from");
+        dialog.setContentText("Lineup:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            String selectedLineup = result.get();
+            loadPlayersFromLineup(selectedLineup);
+        }
+    }
+
+    private void loadPlayersFromLineup(String lineupName) {
+        selectedPlayers.clear();
+
+        List<HCGoal1.PlayerLineup> players = lineupPlayers.get(lineupName);
+        if (players != null && !players.isEmpty()) {
+            for (HCGoal1.PlayerLineup player : players) {
+                if (!player.getName().equals("Select player")) {
+                    selectedPlayers.add(player.getName() + " (" + player.getPosition() + ")");
+                }
+            }
+
+        } else {
+            showAlert("Lineup Empty", "No players found in this lineup.", Alert.AlertType.WARNING);
+
+        }
+    }
+
+
+
 
     private void filterAvailablePlayers(String searchText) {
         if (searchText == null || searchText.isEmpty()) {
@@ -184,109 +251,55 @@ public class HCGoal2 {
                 break;
             case "Defenders":
                 for (String player : availablePlayers) {
-                    if (player.contains("(DF)")) {
+                    if (player.contains("(DF)") || player.contains("(RB)") ||
+                            player.contains("(LB)") || player.contains("(CB)")) {
                         selectedPlayers.add(player);
                     }
                 }
                 break;
             case "Midfielders":
                 for (String player : availablePlayers) {
-                    if (player.contains("(MF)")) {
+                    if (player.contains("(MF)") || player.contains("(CM)") ||
+                            player.contains("(CDM)") || player.contains("(CAM)") ||
+                            player.contains("(RM)") || player.contains("(LM)")) {
                         selectedPlayers.add(player);
                     }
                 }
                 break;
             case "Forwards":
                 for (String player : availablePlayers) {
-                    if (player.contains("(FW)")) {
+                    if (player.contains("(FW)") || player.contains("(ST)") ||
+                            player.contains("(RW)") || player.contains("(LW)")) {
                         selectedPlayers.add(player);
                     }
                 }
                 break;
-            // Other groups would be implemented similarly
+            case "Starting XI":
+                // Try to load the most recent lineup if available
+                if (!savedLineups.isEmpty()) {
+                    loadPlayersFromLineup(savedLineups.get(0));
+                } else {
+                    // Take first 11 players if no lineup available
+                    for (int i = 0; i < Math.min(11, availablePlayers.size()); i++) {
+                        selectedPlayers.add(availablePlayers.get(i));
+                    }
+                }
+                break;
         }
     }
 
-    private void addSampleTrainingSessions() {
-        // Add some sample training sessions for the current week
-        LocalDate today = LocalDate.now();
-
-        // Find the start of the week (Monday)
-        LocalDate startOfWeek = today;
-        while (startOfWeek.getDayOfWeek() != DayOfWeek.MONDAY) {
-            startOfWeek = startOfWeek.minusDays(1);
+    private void loadTrainingSessionsFromFile() {
+        // Load training sessions from file
+        List<TrainingSession> sessions = HeadCoachDataManager.loadTrainingSessionsFromFile();
+        if (sessions != null && !sessions.isEmpty()) {
+            trainingSessions.addAll(sessions);
         }
-
-        trainingSessions.add(new TrainingSession(
-                "Team Training",
-                startOfWeek,
-                LocalTime.of(10, 0),
-                "90 minutes",
-                "Tactical Organization",
-                "Transition Play",
-                "Medium",
-                "Full Squad",
-                "Training Ground Field 1",
-                "Implement new defensive structure against counter-attacks",
-                "Training mannequins, cones, bibs, tactical board"
-        ));
-
-        trainingSessions.add(new TrainingSession(
-                "Small Group Training",
-                startOfWeek.plusDays(1),
-                LocalTime.of(10, 0),
-                "60 minutes",
-                "Technical Skills",
-                "Finishing",
-                "High",
-                "Forwards",
-                "Training Ground Field 2",
-                "Improve shooting accuracy from crosses",
-                "Goals, balls, cones, crossing machine"
-        ));
-
-        trainingSessions.add(new TrainingSession(
-                "Recovery Session",
-                startOfWeek.plusDays(2),
-                LocalTime.of(11, 0),
-                "45 minutes",
-                "Recovery",
-                "",
-                "Light",
-                "Starting XI",
-                "Indoor Facility",
-                "Active recovery after match",
-                "Foam rollers, resistance bands, yoga mats"
-        ));
-
-        trainingSessions.add(new TrainingSession(
-                "Team Training",
-                startOfWeek.plusDays(3),
-                LocalTime.of(10, 0),
-                "120 minutes",
-                "Set Pieces",
-                "Defensive Structure",
-                "Medium",
-                "Full Squad",
-                "Training Ground Field 1",
-                "Work on defensive and offensive set pieces",
-                "Goals, balls, cones, free kick wall"
-        ));
-
-        trainingSessions.add(new TrainingSession(
-                "Match Simulation",
-                startOfWeek.plusDays(4),
-                LocalTime.of(10, 0),
-                "90 minutes",
-                "Tactical Organization",
-                "Match Intensity",
-                "High",
-                "Full Squad",
-                "Main Stadium",
-                "Full match simulation with tactical focus",
-                "Match kit, balls, referee equipment"
-        ));
     }
+
+    private void saveTrainingSessionsToFile() {
+        HeadCoachDataManager.saveTrainingSessionsToFile(new ArrayList<>(trainingSessions));
+    }
+
 
     @FXML
     public void addSelectedPlayer() {
@@ -378,7 +391,8 @@ public class HCGoal2 {
                 primaryFocusComboBox.getValue(),
                 secondaryFocus != null ? secondaryFocus : "",
                 intensityComboBox.getValue(),
-                playerGroupComboBox.getValue() != null ? playerGroupComboBox.getValue() : "Custom Group",
+                intensityComboBox.getValue(),
+
                 locationField.getText().trim(),
                 sessionObjectivesArea.getText().trim(),
                 equipmentRequiredArea.getText().trim()
@@ -411,6 +425,9 @@ public class HCGoal2 {
         // Add to table
         trainingSessions.add(session);
 
+        // Save to file
+        saveTrainingSessionsToFile();
+
         // Clear form (optional - could leave filled for quick entry of similar sessions)
         clearForm();
 
@@ -433,13 +450,16 @@ public class HCGoal2 {
         intensityComboBox.setValue(selectedSession.getIntensity());
         primaryFocusComboBox.setValue(selectedSession.getPrimaryFocus());
         secondaryFocusComboBox.setValue(selectedSession.getSecondaryFocus());
-        playerGroupComboBox.setValue(selectedSession.getPlayerGroup());
+
         locationField.setText(selectedSession.getLocation());
         sessionObjectivesArea.setText(selectedSession.getObjectives());
         equipmentRequiredArea.setText(selectedSession.getEquipmentRequired());
 
         // Remove the selected session
         trainingSessions.remove(selectedSession);
+
+        // Save changes to file
+        saveTrainingSessionsToFile();
     }
 
     @FXML
@@ -458,6 +478,7 @@ public class HCGoal2 {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             trainingSessions.remove(selectedSession);
+            saveTrainingSessionsToFile();
         }
     }
 
@@ -525,6 +546,12 @@ public class HCGoal2 {
         dialog.showAndWait();
     }
 
+    @FXML
+    public void manageLineups(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("HCGoal1.fxml", actionEvent);
+    }
+
+
     private void clearForm() {
         sessionTypeComboBox.setValue(null);
         sessionDatePicker.setValue(LocalDate.now());
@@ -536,7 +563,7 @@ public class HCGoal2 {
         secondaryFocusComboBox.setValue(null);
         sessionObjectivesArea.clear();
         equipmentRequiredArea.clear();
-        playerGroupComboBox.setValue(null);
+
         selectedPlayers.clear();
     }
 
@@ -550,22 +577,13 @@ public class HCGoal2 {
 
     @FXML
     public void dashboard(ActionEvent actionEvent) throws IOException {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("DashboardHeadCoach.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) sessionDatePicker.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Navigation Error", "Could not navigate to Dashboard. Error: " + e.getMessage(), Alert.AlertType.ERROR);
-        }
+        SceneSwitcher.switchTo("DashboardHeadCoach.fxml", actionEvent);
     }
 
     // Model class for training sessions
-    public static class TrainingSession {
+    public static class TrainingSession implements java.io.Serializable {
+        private static final long serialVersionUID = 1L;
+
         private final String sessionType;
         private final LocalDate sessionDate;
         private final LocalTime startTime;
