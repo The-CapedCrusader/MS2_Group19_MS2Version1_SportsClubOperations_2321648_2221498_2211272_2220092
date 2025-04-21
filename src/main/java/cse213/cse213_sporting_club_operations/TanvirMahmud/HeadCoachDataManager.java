@@ -1,10 +1,10 @@
 package cse213.cse213_sporting_club_operations.TanvirMahmud;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal1.PlayerLineup;
+import cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal3;
+import cse213.cse213_sporting_club_operations.TanvirMahmud.TrainingSession;
 
 public class HeadCoachDataManager {
     // Use relative path instead of absolute path
@@ -155,7 +155,7 @@ public class HeadCoachDataManager {
     }
 
     // Save lineup configuration
-    public static void saveLineupConfiguration(String lineupName, List<HCGoal1.PlayerLineup> players,
+    public static void saveLineupConfiguration(String lineupName, List<PlayerLineup> players,
                                                String formation, String opponent, String competition,
                                                String venue, Map<String, String> tactics) {
         Map<String, Object> lineupConfig = new HashMap<>();
@@ -169,7 +169,8 @@ public class HeadCoachDataManager {
         String configPath = LINEUPS_DIR + File.separator + lineupName.replaceAll("[\\\\/:*?\"<>|]", "_") + ".bin";
         saveObjectToFile(lineupConfig, configPath);
     }
-    public static void saveTrainingSessionsToFile(List<HCGoal2.TrainingSession> sessions) {
+
+    public static void saveTrainingSessionsToFile(List<TrainingSession> sessions) {
         try {
             File file = new File(DATA_DIRECTORY, "training_sessions.bin");
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
@@ -180,20 +181,76 @@ public class HeadCoachDataManager {
         }
     }
 
-    public static List<HCGoal2.TrainingSession> loadTrainingSessionsFromFile() {
+    public static List<TrainingSession> loadTrainingSessionsFromFile() {
         try {
             File file = new File(DATA_DIRECTORY, "training_sessions.bin");
             if (!file.exists()) return new ArrayList<>();
 
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                 @SuppressWarnings("unchecked")
-                List<HCGoal2.TrainingSession> sessions = (List<HCGoal2.TrainingSession>) ois.readObject();
+                List<TrainingSession> sessions = (List<TrainingSession>) ois.readObject();
                 return sessions;
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return new ArrayList<>();
+    }
+
+    public static List<PlayerLineup> getPlayersFromSavedLineups() {
+        List<PlayerLineup> players = new ArrayList<>();
+
+        // Try to load players from saved lineup configurations
+        for (String lineupName : loadLineupsFromFile()) {
+            Map<String, Object> config = loadLineupConfiguration(lineupName);
+            if (config != null && config.containsKey("players")) {
+                @SuppressWarnings("unchecked")
+                List<PlayerLineup> lineupPlayers = (List<PlayerLineup>) config.get("players");
+                if (lineupPlayers != null) {
+                    players.addAll(lineupPlayers);
+                }
+            }
+        }
+
+        return players;
+    }
+
+    public static List<HCGoal3.TacticalStrategy> loadTacticalStrategies() {
+        List<HCGoal3.TacticalStrategy> strategies = new ArrayList<>();
+
+        try {
+            File file = new File(DATA_DIRECTORY, "tactics.bin");
+            if (file.exists()) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                    @SuppressWarnings("unchecked")
+                    List<HCGoal3.TacticalStrategy> loadedStrategies = (List<HCGoal3.TacticalStrategy>) ois.readObject();
+                    if (loadedStrategies != null) {
+                        strategies.addAll(loadedStrategies);
+                    }
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading tactical strategies: " + e.getMessage());
+        }
+
+        return strategies;
+    }
+
+    public static void saveTacticalStrategies(List<HCGoal3.TacticalStrategy> strategies) {
+        try {
+            // Make sure data directory exists
+            createDirectory(DATA_DIRECTORY);
+
+            // Save strategies to file
+            File file = new File(DATA_DIRECTORY, "tactics.bin");
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+                oos.writeObject(strategies);
+            }
+            System.out.println("Tactical strategies saved successfully");
+        } catch (IOException e) {
+            System.err.println("Error saving tactical strategies: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     // Load lineup configuration

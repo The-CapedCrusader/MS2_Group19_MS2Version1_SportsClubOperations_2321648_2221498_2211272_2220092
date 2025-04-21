@@ -10,196 +10,184 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
+import java.util.*;
 
 public class HCGoal3 {
     // Match details
     @FXML private ComboBox<String> opponentComboBox;
     @FXML private DatePicker matchDatePicker;
-    @FXML private ComboBox<String> venueComboBox;
-    @FXML private ComboBox<String> competitionComboBox;
-
-    // Formation and strategy
     @FXML private ComboBox<String> formationComboBox;
-    @FXML private ComboBox<String> pressingIntensityComboBox;
-    @FXML private ComboBox<String> defensiveShapeComboBox;
-    @FXML private ComboBox<String> attackingPatternComboBox;
-    @FXML private ComboBox<String> possessionStyleComboBox;
-    @FXML private Slider tempoSlider;
-    @FXML private Slider defenseLineSlider;
-    @FXML private Slider widthSlider;
 
-    // Player roles
-    @FXML private TableView<PlayerRole> playerRolesTable;
-    @FXML private TableColumn<PlayerRole, String> playerNameColumn;
-    @FXML private TableColumn<PlayerRole, String> positionColumn;
-    @FXML private TableColumn<PlayerRole, String> roleColumn;
-    @FXML private TableColumn<PlayerRole, String> specificInstructionsColumn;
+    // Tactics
+    @FXML private ComboBox<String> pressingStyleComboBox;
+    @FXML private ComboBox<String> defensiveLineComboBox;
+    @FXML private TextArea tacticalNotesArea;
 
-    // Strategy adjustments
-    @FXML private TextArea counterStrategyArea;
-    @FXML private TextArea setpiecesStrategyArea;
-    @FXML private TextArea substitutionStrategyArea;
+    // Player assignments from lineup
+    @FXML private TableView<PlayerAssignment> playerAssignmentsTable;
+    @FXML private TableColumn<PlayerAssignment, String> playerNameColumn;
+    @FXML private TableColumn<PlayerAssignment, String> positionColumn;
+    @FXML private TableColumn<PlayerAssignment, String> roleColumn;
 
-    // Phase of play details
-    @FXML private TextArea defensivePhaseArea;
-    @FXML private TextArea transitionPhaseArea;
-    @FXML private TextArea attackingPhaseArea;
+    // Strategy list
+    @FXML private ListView<String> savedStrategiesListView;
+    @FXML private Label lastTrainingSessionLabel;
 
-    // Saved strategies
-    @FXML private TableView<MatchStrategy> savedStrategiesTable;
-    @FXML private TableColumn<MatchStrategy, String> strategyNameColumn;
-    @FXML private TableColumn<MatchStrategy, String> opponentColumn;
-    @FXML private TableColumn<MatchStrategy, String> dateColumn;
-    @FXML private TableColumn<MatchStrategy, String> formationColumn;
-    @FXML private TableColumn<MatchStrategy, String> styleColumn;
-
-    // Strategy visualization
-    @FXML private VBox visualizationBox;
-
-    private ObservableList<PlayerRole> playerRoles = FXCollections.observableArrayList();
-    private ObservableList<MatchStrategy> savedStrategies = FXCollections.observableArrayList();
+    private ObservableList<PlayerAssignment> playerAssignments = FXCollections.observableArrayList();
+    private Map<String, TacticalStrategy> savedStrategies = new HashMap<>();
 
     @FXML
     public void initialize() {
         // Initialize date picker
         matchDatePicker.setValue(LocalDate.now());
 
-        // Initialize comboboxes with options
+        // Initialize comboboxes
         opponentComboBox.setItems(FXCollections.observableArrayList(
                 "Arsenal FC", "Chelsea FC", "Liverpool FC", "Manchester City",
-                "Manchester United", "Tottenham Hotspur", "Everton FC", "Leicester City",
-                "West Ham United", "Aston Villa"));
-
-        venueComboBox.setItems(FXCollections.observableArrayList("Home", "Away", "Neutral"));
-
-        competitionComboBox.setItems(FXCollections.observableArrayList(
-                "Premier League", "FA Cup", "League Cup", "Champions League",
-                "Europa League", "Club Friendly"));
+                "Manchester United", "Tottenham Hotspur", "Everton FC"));
 
         formationComboBox.setItems(FXCollections.observableArrayList(
-                "4-4-2", "4-3-3", "4-2-3-1", "3-5-2", "3-4-3", "5-3-2", "5-4-1"));
+                "4-4-2", "4-3-3", "4-2-3-1", "3-5-2", "3-4-3"));
 
-        pressingIntensityComboBox.setItems(FXCollections.observableArrayList(
-                "High Press", "Medium Press", "Low Press", "Selective Press", "No Press"));
+        pressingStyleComboBox.setItems(FXCollections.observableArrayList(
+                "High Press", "Medium Press", "Low Block", "Counter-Press"));
 
-        defensiveShapeComboBox.setItems(FXCollections.observableArrayList(
-                "High Line", "Medium Block", "Low Block", "Compact", "Wide"));
+        defensiveLineComboBox.setItems(FXCollections.observableArrayList(
+                "High Line", "Medium Block", "Low Block", "Offside Trap"));
 
-        attackingPatternComboBox.setItems(FXCollections.observableArrayList(
-                "Direct Play", "Wing Play", "Through the Middle", "Counter-attack", "Set Pieces"));
-
-        possessionStyleComboBox.setItems(FXCollections.observableArrayList(
-                "Possession-based", "Direct", "Counter-attacking", "Balanced"));
-
-        // Setup table columns for player roles
+        // Setup player assignments table
         playerNameColumn.setCellValueFactory(new PropertyValueFactory<>("playerName"));
         positionColumn.setCellValueFactory(new PropertyValueFactory<>("position"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
-        specificInstructionsColumn.setCellValueFactory(new PropertyValueFactory<>("instructions"));
-        playerRolesTable.setItems(playerRoles);
+        playerAssignmentsTable.setItems(playerAssignments);
 
-        // Setup saved strategies table
-        strategyNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        opponentColumn.setCellValueFactory(new PropertyValueFactory<>("opponent"));
-        dateColumn.setCellValueFactory(data -> {
-            LocalDate date = data.getValue().getMatchDate();
-            if (date != null) {
-                return new SimpleStringProperty(date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-            }
-            return new SimpleStringProperty("");
-        });
-        formationColumn.setCellValueFactory(new PropertyValueFactory<>("formation"));
-        styleColumn.setCellValueFactory(new PropertyValueFactory<>("style"));
-        savedStrategiesTable.setItems(savedStrategies);
+        // Load saved lineups
+        loadLineups();
 
-        // Load sample data
-        loadSampleData();
+        // Load last training session
+        loadLastTrainingSession();
 
-        // Add listeners
-        formationComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                updateFormationVisualization(newVal);
-            }
-        });
+        // Add listeners for dynamic updates
+        formationComboBox.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldVal, newVal) -> updateFormationDisplay(newVal));
 
-        savedStrategiesTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                loadStrategy(newVal);
-            }
-        });
+        savedStrategiesListView.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldVal, newVal) -> loadSelectedStrategy(newVal));
     }
 
-    private void loadSampleData() {
-        // Sample player roles
-        playerRoles.add(new PlayerRole("David de Gea", "GK", "Sweeper Keeper", "Stay on line, distribute quickly"));
-        playerRoles.add(new PlayerRole("Luke Shaw", "LB", "Attacking Fullback", "Overlap, provide width"));
-        playerRoles.add(new PlayerRole("Harry Maguire", "CB", "Ball Playing Defender", "Start build-up, cover wide spaces"));
-        playerRoles.add(new PlayerRole("Raphael Varane", "CB", "Stopper", "Aggressive pressing, cover depth"));
-        playerRoles.add(new PlayerRole("Aaron Wan-Bissaka", "RB", "Defensive Fullback", "Stay back, tight marking"));
-        playerRoles.add(new PlayerRole("Scott McTominay", "CDM", "Ball Winner", "Break up play, simple passes"));
+    private void loadLineups() {
+        List<String> lineupNames = HeadCoachDataManager.loadLineupsFromFile();
+        if (lineupNames.isEmpty()) {
+            showAlert("No Lineups Found", "No saved lineups found. Create a lineup first.",
+                    Alert.AlertType.INFORMATION);
+            return;
+        }
 
-        // Sample saved strategies
-        savedStrategies.add(new MatchStrategy(
-                "Counter Strategy vs City",
-                "Manchester City",
-                LocalDate.now().plusDays(10),
-                "5-3-2",
-                "Counter-attacking",
-                "Away",
-                "Premier League"
-        ));
+        // Load first lineup for demo
+        String firstLineup = lineupNames.get(0);
+        Map<String, Object> lineupConfig = HeadCoachDataManager.loadLineupConfiguration(firstLineup);
 
-        savedStrategies.add(new MatchStrategy(
-                "High Press vs Arsenal",
-                "Arsenal FC",
-                LocalDate.now().plusDays(17),
-                "4-3-3",
-                "Pressing",
-                "Home",
-                "Premier League"
-        ));
+        @SuppressWarnings("unchecked")
+        List<HCGoal1.PlayerLineup> players = (List<HCGoal1.PlayerLineup>) lineupConfig.get("players");
+        if (players != null) {
+            playerAssignments.clear();
+            for (HCGoal1.PlayerLineup player : players) {
+                playerAssignments.add(new PlayerAssignment(
+                        player.getName(),
+                        player.getPosition(),
+                        "Standard"  // Default role
+                ));
+            }
+        }
 
-        savedStrategies.add(new MatchStrategy(
-                "Possession Setup vs Newcastle",
-                "Newcastle United",
-                LocalDate.now().plusDays(24),
-                "4-2-3-1",
-                "Possession-based",
-                "Home",
-                "FA Cup"
-        ));
+        // Add lineup names to strategy list for demo
+        savedStrategiesListView.setItems(FXCollections.observableArrayList(lineupNames));
     }
 
-    private void updateFormationVisualization(String formation) {
-        // In a real implementation, this would update a graphical representation
-        System.out.println("Updating visualization for formation: " + formation);
-        // visualizationBox would be updated with a custom node showing the formation
+    private void loadLastTrainingSession() {
+        List<TrainingSession> sessions = HeadCoachDataManager.loadTrainingSessionsFromFile();
+        if (!sessions.isEmpty()) {
+            // Find the latest session
+            TrainingSession latest = sessions.get(sessions.size() - 1);
+            lastTrainingSessionLabel.setText(String.format("Last Training: %s - %s focus on %s",
+                    latest.getSessionDate(),
+                    latest.getPrimaryFocus(),
+                    latest.getSessionType()));
+        } else {
+            lastTrainingSessionLabel.setText("No recent training sessions found");
+        }
     }
 
-    private void loadStrategy(MatchStrategy strategy) {
-        // Populate form fields with selected strategy
-        opponentComboBox.setValue(strategy.getOpponent());
-        matchDatePicker.setValue(strategy.getMatchDate());
-        venueComboBox.setValue(strategy.getVenue());
-        competitionComboBox.setValue(strategy.getCompetition());
-        formationComboBox.setValue(strategy.getFormation());
+    private void updateFormationDisplay(String formation) {
+        if (formation == null) return;
 
-        // Additional strategy details would be loaded here
-        // This is simplified for the example
+        // In a real app, this would update a formation visualization
+        System.out.println("Updating formation display to: " + formation);
+    }
+
+    private void loadSelectedStrategy(String strategyName) {
+        if (strategyName == null) return;
+
+        Map<String, Object> config = HeadCoachDataManager.loadLineupConfiguration(strategyName);
+        if (config != null) {
+            // Update UI with lineup data
+            String formation = (String) config.get("formation");
+            if (formation != null) {
+                formationComboBox.setValue(formation);
+            }
+
+            String opponent = (String) config.get("opponent");
+            if (opponent != null) {
+                opponentComboBox.setValue(opponent);
+            }
+
+            @SuppressWarnings("unchecked")
+            Map<String, String> tactics = (Map<String, String>) config.get("tactics");
+            if (tactics != null) {
+                // Update tactics fields if available
+                if (tactics.containsKey("pressingStyle")) {
+                    pressingStyleComboBox.setValue(tactics.get("pressingStyle"));
+                }
+
+                if (tactics.containsKey("defensiveLine")) {
+                    defensiveLineComboBox.setValue(tactics.get("defensiveLine"));
+                }
+
+                if (tactics.containsKey("notes")) {
+                    tacticalNotesArea.setText(tactics.get("notes"));
+                }
+            }
+
+            // Update player assignments
+            @SuppressWarnings("unchecked")
+            List<HCGoal1.PlayerLineup> players = (List<HCGoal1.PlayerLineup>) config.get("players");
+            if (players != null) {
+                playerAssignments.clear();
+                for (HCGoal1.PlayerLineup player : players) {
+                    playerAssignments.add(new PlayerAssignment(
+                            player.getName(),
+                            player.getPosition(),
+                            "Standard"  // Default role
+                    ));
+                }
+            }
+        }
     }
 
     @FXML
     public void saveStrategy() {
-        // Validate required fields
-        if (opponentComboBox.getValue() == null || formationComboBox.getValue() == null) {
-            showAlert("Error", "Please select an opponent and formation", Alert.AlertType.ERROR);
+        // Basic validation
+        if (opponentComboBox.getSelectionModel().isEmpty() ||
+                formationComboBox.getSelectionModel().isEmpty()) {
+            showAlert("Missing Information",
+                    "Please select an opponent and formation", Alert.AlertType.WARNING);
             return;
         }
 
-        // Create strategy name
+        // Prompt for strategy name
         TextInputDialog dialog = new TextInputDialog("Strategy vs " + opponentComboBox.getValue());
         dialog.setTitle("Save Strategy");
         dialog.setHeaderText("Enter a name for this tactical strategy");
@@ -209,171 +197,98 @@ public class HCGoal3 {
         if (result.isPresent() && !result.get().trim().isEmpty()) {
             String strategyName = result.get().trim();
 
-            // Determine style based on selections
-            String style = possessionStyleComboBox.getValue() != null ?
-                    possessionStyleComboBox.getValue() : "Balanced";
+            // Create tactics map
+            Map<String, String> tactics = new HashMap<>();
+            if (pressingStyleComboBox.getValue() != null) {
+                tactics.put("pressingStyle", pressingStyleComboBox.getValue());
+            }
+            if (defensiveLineComboBox.getValue() != null) {
+                tactics.put("defensiveLine", defensiveLineComboBox.getValue());
+            }
+            tactics.put("notes", tacticalNotesArea.getText());
 
-            // Create new strategy
-            MatchStrategy newStrategy = new MatchStrategy(
+            // Convert player assignments to PlayerLineup objects
+            List<HCGoal1.PlayerLineup> players = new ArrayList<>();
+
+            for (PlayerAssignment assignment : playerAssignments) {
+                // Fixed constructor call - passing jersey number as an integer (default to 0)
+                HCGoal1.PlayerLineup player = new HCGoal1.PlayerLineup(
+                        assignment.getPlayerName(),
+                        assignment.getPosition(),
+                        0,           // Jersey number as integer
+                        "Active");   // Status
+                players.add(player);
+            }
+
+            // Save the lineup configuration
+            HeadCoachDataManager.saveLineupConfiguration(
                     strategyName,
-                    opponentComboBox.getValue(),
-                    matchDatePicker.getValue(),
+                    players,
                     formationComboBox.getValue(),
-                    style,
-                    venueComboBox.getValue(),
-                    competitionComboBox.getValue()
+                    opponentComboBox.getValue(),
+                    "League Match", // Default
+                    "Home",         // Default
+                    tactics
             );
 
-            // Add to list
-            savedStrategies.add(newStrategy);
+            // Update the list view
+            List<String> lineupNames = HeadCoachDataManager.loadLineupsFromFile();
+            savedStrategiesListView.setItems(FXCollections.observableArrayList(lineupNames));
 
-            showAlert("Success", "Strategy saved successfully", Alert.AlertType.INFORMATION);
+            showAlert("Success", "Tactical strategy saved successfully", Alert.AlertType.INFORMATION);
         }
-    }
-
-    @FXML
-    public void deleteStrategy() {
-        MatchStrategy selectedStrategy = savedStrategiesTable.getSelectionModel().getSelectedItem();
-        if (selectedStrategy == null) {
-            showAlert("Error", "Please select a strategy to delete", Alert.AlertType.ERROR);
-            return;
-        }
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Strategy");
-        alert.setHeaderText("Delete " + selectedStrategy.getName());
-        alert.setContentText("Are you sure you want to delete this strategy? This cannot be undone.");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            savedStrategies.remove(selectedStrategy);
-        }
-    }
-
-    @FXML
-    public void addPlayerRole() {
-        Dialog<PlayerRole> dialog = new Dialog<>();
-        dialog.setTitle("Add Player Role");
-        dialog.setHeaderText("Define player role and instructions");
-
-        // Set the button types
-        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
-
-        // Create the fields and labels
-        ComboBox<String> playerCombo = new ComboBox<>();
-        playerCombo.setItems(FXCollections.observableArrayList(
-                "David de Gea", "Luke Shaw", "Harry Maguire", "Raphael Varane",
-                "Aaron Wan-Bissaka", "Scott McTominay", "Bruno Fernandes",
-                "Paul Pogba", "Jadon Sancho", "Mason Greenwood", "Cristiano Ronaldo"
-        ));
-
-        ComboBox<String> positionCombo = new ComboBox<>();
-        positionCombo.setItems(FXCollections.observableArrayList(
-                "GK", "LB", "CB", "RB", "CDM", "CM", "CAM", "LW", "RW", "ST"
-        ));
-
-        ComboBox<String> roleCombo = new ComboBox<>();
-        roleCombo.setItems(FXCollections.observableArrayList(
-                "Sweeper Keeper", "Ball Playing Defender", "Stopper", "Attacking Fullback",
-                "Wing Back", "Defensive Fullback", "Ball Winner", "Deep Lying Playmaker",
-                "Box to Box Midfielder", "Advanced Playmaker", "Winger", "Inside Forward",
-                "Target Man", "Complete Forward", "Poacher"
-        ));
-
-        TextField instructionsField = new TextField();
-        instructionsField.setPromptText("Enter specific instructions");
-
-        // Create and arrange scenes
-        VBox content = new VBox(10);
-        content.getChildren().addAll(
-                new Label("Player:"), playerCombo,
-                new Label("Position:"), positionCombo,
-                new Label("Role:"), roleCombo,
-                new Label("Instructions:"), instructionsField
-        );
-        dialog.getDialogPane().setContent(content);
-
-        // Convert the result
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == saveButtonType) {
-                if (playerCombo.getValue() != null && positionCombo.getValue() != null &&
-                        roleCombo.getValue() != null) {
-                    return new PlayerRole(
-                            playerCombo.getValue(),
-                            positionCombo.getValue(),
-                            roleCombo.getValue(),
-                            instructionsField.getText()
-                    );
-                }
-            }
-            return null;
-        });
-
-        Optional<PlayerRole> result = dialog.showAndWait();
-        result.ifPresent(role -> {
-            playerRoles.add(role);
-        });
     }
 
     @FXML
     public void editPlayerRole() {
-        PlayerRole selectedRole = playerRolesTable.getSelectionModel().getSelectedItem();
-        if (selectedRole == null) {
-            showAlert("Error", "Please select a player role to edit", Alert.AlertType.ERROR);
+        PlayerAssignment selected = playerAssignmentsTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert("No Selection", "Please select a player to edit role", Alert.AlertType.WARNING);
             return;
         }
 
-        // Similar to addPlayerRole but pre-populate fields
-        // Implementation omitted for brevity
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Edit Player Role");
+        dialog.setHeaderText("Assign role to " + selected.getPlayerName());
+
+        // Set button types
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        // Create role combobox
+        ComboBox<String> roleCombo = new ComboBox<>();
+        roleCombo.setItems(FXCollections.observableArrayList(
+                "Standard", "Captain", "Set Piece Taker", "Playmaker",
+                "Target Man", "Sweeper", "Free Role"));
+        roleCombo.setValue(selected.getRole());
+
+        // Add combobox to dialog
+        VBox content = new VBox(10);
+        content.getChildren().addAll(new Label("Select Role:"), roleCombo);
+        dialog.getDialogPane().setContent(content);
+
+        // Convert result
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == saveButtonType) {
+                return roleCombo.getValue();
+            }
+            return null;
+        });
+
+        // Show dialog and process result
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(role -> {
+            int index = playerAssignments.indexOf(selected);
+            playerAssignments.set(index, new PlayerAssignment(
+                    selected.getPlayerName(),
+                    selected.getPosition(),
+                    role));
+        });
     }
 
     @FXML
-    public void removePlayerRole() {
-        PlayerRole selectedRole = playerRolesTable.getSelectionModel().getSelectedItem();
-        if (selectedRole == null) {
-            showAlert("Error", "Please select a player role to remove", Alert.AlertType.ERROR);
-            return;
-        }
-
-        playerRoles.remove(selectedRole);
-    }
-
-    @FXML
-    public void generatePDF() {
-        // Generate a PDF report of the tactical strategy
-        showAlert("Information", "PDF generation would be implemented here", Alert.AlertType.INFORMATION);
-    }
-
-    @FXML
-    public void clearForm() {
-        opponentComboBox.setValue(null);
-        matchDatePicker.setValue(LocalDate.now());
-        venueComboBox.setValue(null);
-        competitionComboBox.setValue(null);
-        formationComboBox.setValue(null);
-        pressingIntensityComboBox.setValue(null);
-        defensiveShapeComboBox.setValue(null);
-        attackingPatternComboBox.setValue(null);
-        possessionStyleComboBox.setValue(null);
-
-        tempoSlider.setValue(50);
-        defenseLineSlider.setValue(50);
-        widthSlider.setValue(50);
-
-        counterStrategyArea.clear();
-        setpiecesStrategyArea.clear();
-        substitutionStrategyArea.clear();
-        defensivePhaseArea.clear();
-        transitionPhaseArea.clear();
-        attackingPhaseArea.clear();
-
-        playerRoles.clear();
-    }
-
-    @FXML
-    public void dashboard(ActionEvent actionEvent) throws IOException {
-        SceneSwitcher.switchTo("DashboardHeadCoach.fxml", actionEvent);
+    public void dashboard(ActionEvent event) throws IOException {
+        SceneSwitcher.switchTo("DashboardHeadCoach.fxml", event);
     }
 
     private void showAlert(String title, String message, Alert.AlertType type) {
@@ -384,52 +299,52 @@ public class HCGoal3 {
         alert.showAndWait();
     }
 
-    // Inner classes
-    public static class PlayerRole {
+    // Model classes
+    public static class PlayerAssignment {
         private final String playerName;
         private final String position;
         private final String role;
-        private final String instructions;
 
-        public PlayerRole(String playerName, String position, String role, String instructions) {
+        public PlayerAssignment(String playerName, String position, String role) {
             this.playerName = playerName;
             this.position = position;
             this.role = role;
-            this.instructions = instructions;
         }
 
         public String getPlayerName() { return playerName; }
         public String getPosition() { return position; }
         public String getRole() { return role; }
-        public String getInstructions() { return instructions; }
     }
 
-    public static class MatchStrategy {
-        private final String name;
-        private final String opponent;
-        private final LocalDate matchDate;
-        private final String formation;
-        private final String style;
-        private final String venue;
-        private final String competition;
+    public static class TacticalStrategy implements Serializable {
+        private static final long serialVersionUID = 1L;
 
-        public MatchStrategy(String name, String opponent, LocalDate matchDate, String formation,
-                             String style, String venue, String competition) {
-            this.name = name;
-            this.opponent = opponent;
-            this.matchDate = matchDate;
-            this.formation = formation;
-            this.style = style;
-            this.venue = venue;
-            this.competition = competition;
-        }
+        private String name;
+        private String opponent;
+        private String formation;
+        private LocalDate matchDate;
+        private Map<String, String> tactics;
+        private List<PlayerAssignment> playerAssignments;
 
+        // Getters and setters
         public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+
         public String getOpponent() { return opponent; }
-        public LocalDate getMatchDate() { return matchDate; }
+        public void setOpponent(String opponent) { this.opponent = opponent; }
+
         public String getFormation() { return formation; }
-        public String getStyle() { return style; }
-        public String getVenue() { return venue; }
-        public String getCompetition() { return competition; }
+        public void setFormation(String formation) { this.formation = formation; }
+
+        public LocalDate getMatchDate() { return matchDate; }
+        public void setMatchDate(LocalDate matchDate) { this.matchDate = matchDate; }
+
+        public Map<String, String> getTactics() { return tactics; }
+        public void setTactics(Map<String, String> tactics) { this.tactics = tactics; }
+
+        public List<PlayerAssignment> getPlayerAssignments() { return playerAssignments; }
+        public void setPlayerAssignments(List<PlayerAssignment> assignments) {
+            this.playerAssignments = assignments;
+        }
     }
 }

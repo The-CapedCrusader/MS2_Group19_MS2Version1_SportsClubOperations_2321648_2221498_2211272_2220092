@@ -4,17 +4,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.event.ActionEvent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HCGoal7 {
     @FXML private ComboBox<String> playerComboBox;
@@ -50,7 +52,6 @@ public class HCGoal7 {
         setupComboBoxes();
         setupTable();
         setupListeners();
-        loadSampleData();
         updatePieChart();
 
         // Setup filtered list
@@ -59,15 +60,18 @@ public class HCGoal7 {
     }
 
     private void setupComboBoxes() {
-        // Players
-        ObservableList<String> players = FXCollections.observableArrayList(
-                "David De Gea", "Harry Maguire", "Luke Shaw", "Bruno Fernandes",
-                "Marcus Rashford", "Cristiano Ronaldo", "Mason Greenwood",
-                "Aaron Wan-Bissaka", "Scott McTominay", "Fred", "Jadon Sancho"
-        );
-        playerComboBox.setItems(players);
+        // Load players from user.bin
+        List<String> playerNames = loadPlayerNamesFromFile();
+
+        if (playerNames.isEmpty()) {
+            playerNames.add("No players found");
+        }
+
+        ObservableList<String> playerList = FXCollections.observableArrayList(playerNames);
+        playerComboBox.setItems(playerList);
+
         filterPlayerComboBox.getItems().add("All Players");
-        filterPlayerComboBox.getItems().addAll(players);
+        filterPlayerComboBox.getItems().addAll(playerList);
         filterPlayerComboBox.setValue("All Players");
 
         // Incident types
@@ -95,6 +99,51 @@ public class HCGoal7 {
 
         // Set default dates
         incidentDatePicker.setValue(LocalDate.now());
+    }
+
+    private List<String> loadPlayerNamesFromFile() {
+        List<String> playerNames = new ArrayList<>();
+
+        // Add fallback data in case loading fails
+        playerNames.add("Jude Bellingham");
+        playerNames.add("Erling Haaland");
+        playerNames.add("Florian Wirtz");
+
+        try {
+            // Using the same file path as in Goal7 class
+            File file = new File("C:\\Users\\Tanvir Mahmud\\Desktop\\SportsClubOperations\\data\\user.bin");
+            if (file.exists()) {
+                try (FileInputStream fis = new FileInputStream(file);
+                     ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+                    Object obj = ois.readObject();
+
+                    if (obj instanceof List<?>) {
+                        List<?> userList = (List<?>) obj;
+                        for (Object user : userList) {
+                            if (user instanceof Player) {
+                                Player player = (Player) user;
+                                playerNames.add(player.getName());
+                            }
+                        }
+                    }
+
+                    // Clear default players if we successfully loaded at least one
+                    if (playerNames.size() > 3) {
+                        playerNames = playerNames.subList(3, playerNames.size());
+                    }
+
+                    System.out.println("Loaded " + playerNames.size() + " players from user.bin");
+                }
+            } else {
+                System.out.println("User.bin file not found at: " + file.getAbsolutePath());
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading player data: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return playerNames;
     }
 
     private void setupTable() {
@@ -130,23 +179,6 @@ public class HCGoal7 {
         });
     }
 
-    private void loadSampleData() {
-        disciplinaryActions.addAll(
-            new DisciplinaryAction("Bruno Fernandes", LocalDate.now().minusDays(5),
-                    "Yellow Card Accumulation", "Suspension",
-                    LocalDate.now().minusDays(3), LocalDate.now().minusDays(1),
-                    0.0, "Match suspension due to 5 yellow cards", true),
-            new DisciplinaryAction("Marcus Rashford", LocalDate.now().minusDays(10),
-                    "Late for Training", "Fine",
-                    null, null,
-                    1000.0, "Player was 45 minutes late for training", false),
-            new DisciplinaryAction("Harry Maguire", LocalDate.now().minusDays(15),
-                    "Red Card", "Suspension",
-                    LocalDate.now().minusDays(14), LocalDate.now().minusDays(7),
-                    0.0, "Direct red card for serious foul play", true)
-        );
-    }
-
     private void populateForm(DisciplinaryAction action) {
         playerComboBox.setValue(action.getPlayerName());
         incidentDatePicker.setValue(action.getIncidentDate());
@@ -180,6 +212,13 @@ public class HCGoal7 {
     }
 
     private void updatePieChart() {
+        if (disciplinaryActions.isEmpty()) {
+            disciplinaryPieChart.setTitle("No Disciplinary Incidents");
+            disciplinaryPieChart.setData(FXCollections.observableArrayList(
+                    new PieChart.Data("No Data", 1)));
+            return;
+        }
+
         // Count incidents by type
         long redCards = disciplinaryActions.stream()
                 .filter(a -> "Red Card".equals(a.getIncidentType())).count();
@@ -192,13 +231,17 @@ public class HCGoal7 {
         long otherViolations = disciplinaryActions.size() - redCards - yellowCards
                 - lateTraining - missedTraining;
 
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Red Cards", redCards),
-                new PieChart.Data("Yellow Cards", yellowCards),
-                new PieChart.Data("Late for Training", lateTraining),
-                new PieChart.Data("Missed Training", missedTraining),
-                new PieChart.Data("Other Violations", otherViolations)
-        );
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+
+        if (redCards > 0) pieChartData.add(new PieChart.Data("Red Cards", redCards));
+        if (yellowCards > 0) pieChartData.add(new PieChart.Data("Yellow Cards", yellowCards));
+        if (lateTraining > 0) pieChartData.add(new PieChart.Data("Late for Training", lateTraining));
+        if (missedTraining > 0) pieChartData.add(new PieChart.Data("Missed Training", missedTraining));
+        if (otherViolations > 0) pieChartData.add(new PieChart.Data("Other Violations", otherViolations));
+
+        if (pieChartData.isEmpty()) {
+            pieChartData.add(new PieChart.Data("No Data", 1));
+        }
 
         disciplinaryPieChart.setTitle("Disciplinary Incidents");
         disciplinaryPieChart.setData(pieChartData);
@@ -215,11 +258,8 @@ public class HCGoal7 {
         clearForm();
         updatePieChart();
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Action Saved");
-        alert.setHeaderText(null);
-        alert.setContentText("Disciplinary action has been saved successfully.");
-        alert.showAndWait();
+        showAlert(Alert.AlertType.INFORMATION, "Action Saved",
+                "Disciplinary action has been saved successfully.");
     }
 
     @FXML
@@ -240,11 +280,8 @@ public class HCGoal7 {
         disciplinaryActions.add(updated);
         updatePieChart();
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Action Updated");
-        alert.setHeaderText(null);
-        alert.setContentText("Disciplinary action has been updated successfully.");
-        alert.showAndWait();
+        showAlert(Alert.AlertType.INFORMATION, "Action Updated",
+                "Disciplinary action has been updated successfully.");
     }
 
     @FXML
@@ -314,28 +351,13 @@ public class HCGoal7 {
 
     @FXML
     public void generateReport() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Report Generated");
-        alert.setHeaderText(null);
-        alert.setContentText("Disciplinary report has been generated and saved.");
-        alert.showAndWait();
+        showAlert(Alert.AlertType.INFORMATION, "Report Generated",
+                "Disciplinary report has been generated and saved.");
     }
 
     @FXML
-    public void dashboard() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("DashboardHeadCoach.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) playerComboBox.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Navigation Error",
-                    "Could not return to dashboard. Error: " + e.getMessage());
-        }
+    public void dashboard(ActionEvent event) throws IOException {
+        SceneSwitcher.switchTo("DashboardHeadCoach.fxml", event);
     }
 
     private boolean validateInput() {
@@ -396,7 +418,7 @@ public class HCGoal7 {
         boolean leagueReported = leagueReportedCheckBox.isSelected();
 
         return new DisciplinaryAction(player, incidentDate, incidentType, actionType,
-                startDate, endDate, fineAmount, description, leagueReported);
+                startDate, endDate, fineAmount, description, leagueReported, location);
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {
@@ -420,8 +442,8 @@ public class HCGoal7 {
         private final String location;
 
         public DisciplinaryAction(String playerName, LocalDate incidentDate, String incidentType,
-                                 String actionType, LocalDate startDate, LocalDate endDate,
-                                 double fineAmount, String description, boolean leagueReported) {
+                                  String actionType, LocalDate startDate, LocalDate endDate,
+                                  double fineAmount, String description, boolean leagueReported, String location) {
             this.playerName = playerName;
             this.incidentDate = incidentDate;
             this.incidentType = incidentType;
@@ -431,7 +453,7 @@ public class HCGoal7 {
             this.fineAmount = fineAmount;
             this.description = description;
             this.leagueReported = leagueReported;
-            this.location = "Training Ground"; // Default location
+            this.location = location != null && !location.isEmpty() ? location : "Training Ground";
         }
 
         public String getPlayerName() { return playerName; }

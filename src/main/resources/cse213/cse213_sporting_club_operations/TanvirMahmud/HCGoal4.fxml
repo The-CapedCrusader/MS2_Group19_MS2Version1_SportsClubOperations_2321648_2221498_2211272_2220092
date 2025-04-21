@@ -3,277 +3,94 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal4">
-    <children>
-        <VBox layoutX="14.0" layoutY="14.0" prefHeight="772.0" prefWidth="1172.0" spacing="10.0">
-            <children>
-                <Label text="Player Performance &amp; Fitness Monitoring">
-                    <font>
-                        <Font name="System Bold" size="20.0" />
-                    </font>
-                </Label>
-                <Separator prefWidth="200.0" />
-                <HBox prefHeight="50.0" prefWidth="1172.0" spacing="20.0">
-                    <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="380.0" spacing="10.0">
-                            <children>
-                                <Label text="Player:">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <ComboBox fx:id="playerSelectComboBox" prefHeight="30.0" prefWidth="300.0" promptText="Select player" />
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="380.0" spacing="10.0">
-                            <children>
-                                <Label text="Date Range:">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <DatePicker fx:id="startDatePicker" prefHeight="30.0" prefWidth="130.0" promptText="From" />
-                                <Label text="to" />
-                                <DatePicker fx:id="endDatePicker" prefHeight="30.0" prefWidth="130.0" promptText="To" />
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="380.0" spacing="10.0">
-                            <children>
-                                <Label text="Metrics Filter:">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <ComboBox fx:id="metricsFilterComboBox" prefHeight="30.0" prefWidth="260.0" promptText="All metrics" />
-                            </children>
-                        </HBox>
-                    </children>
-                </HBox>
-                <Separator prefWidth="200.0" />
-                <HBox prefHeight="200.0" prefWidth="1172.0" spacing="20.0">
-                    <children>
-                        <VBox prefHeight="200.0" prefWidth="280.0" spacing="10.0">
-                            <children>
-                                <Label text="Player Vitals">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="280.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="100.0" text="Fitness Level:" />
-                                        <ProgressBar fx:id="fitnessProgressBar" prefHeight="20.0" prefWidth="160.0" progress="0.75" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="280.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="100.0" text="Fatigue:" />
-                                        <ProgressBar fx:id="fatigueProgressBar" prefHeight="20.0" prefWidth="160.0" progress="0.35" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="280.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="100.0" text="Match Sharpness:" />
-                                        <ProgressBar fx:id="sharpnessProgressBar" prefHeight="20.0" prefWidth="160.0" progress="0.65" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="280.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="100.0" text="Injury Risk:" />
-                                        <ProgressBar fx:id="injuryRiskProgressBar" prefHeight="20.0" prefWidth="160.0" progress="0.2" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="280.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="100.0" text="Status:" />
-                                        <Label fx:id="playerStatusLabel" text="Fully Fit">
-                                            <font>
-                                                <Font name="System Bold" size="12.0" />
-                                            </font>
-                                        </Label>
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="550.0" spacing="10.0">
-                            <children>
-                                <Label text="Recent Match Ratings">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <LineChart fx:id="matchRatingsChart" legendVisible="false" prefHeight="170.0" prefWidth="550.0">
-                                    <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
-                                    </xAxis>
-                                    <yAxis>
-                                        <NumberAxis autoRanging="false" lowerBound="4.0" side="LEFT" tickUnit="1.0" upperBound="10.0" />
-                                    </yAxis>
-                                </LineChart>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="300.0" spacing="10.0">
-                            <children>
-                                <Label text="Performance Distribution">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <PieChart fx:id="performanceDistributionChart" labelLineLength="20.0" prefHeight="170.0" prefWidth="300.0" />
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <HBox prefHeight="200.0" prefWidth="1172.0" spacing="20.0">
-                    <children>
-                        <VBox prefHeight="200.0" prefWidth="400.0" spacing="10.0">
-                            <children>
-                                <Label text="Training Progress (Last 4 Weeks)">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <BarChart fx:id="trainingProgressChart" prefHeight="170.0" prefWidth="400.0">
-                                    <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
-                                    </xAxis>
-                                    <yAxis>
-                                        <NumberAxis side="LEFT" />
-                                    </yAxis>
-                                </BarChart>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="730.0" spacing="10.0">
-                            <children>
-                                <Label text="Match Statistics">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <TableView fx:id="matchStatsTable" prefHeight="170.0" prefWidth="730.0">
-                                    <columns>
-                                        <TableColumn fx:id="matchDateColumn" prefWidth="100.0" text="Date" />
-                                        <TableColumn fx:id="opponentColumn" prefWidth="130.0" text="Opponent" />
-                                        <TableColumn fx:id="minutesPlayedColumn" prefWidth="80.0" text="Minutes" />
-                                        <TableColumn fx:id="goalsColumn" prefWidth="60.0" text="Goals" />
-                                        <TableColumn fx:id="assistsColumn" prefWidth="60.0" text="Assists" />
-                                        <TableColumn fx:id="passesColumn" prefWidth="60.0" text="Passes" />
-                                        <TableColumn fx:id="passAccuracyColumn" prefWidth="80.0" text="Pass Acc." />
-                                        <TableColumn fx:id="distanceColumn" prefWidth="80.0" text="Distance" />
-                                        <TableColumn fx:id="ratingColumn" prefWidth="80.0" text="Rating" />
-                                    </columns>
-                                </TableView>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <Separator prefWidth="200.0" />
-                <Label text="Physical Condition Tracking">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Label>
-                <HBox prefHeight="200.0" prefWidth="1172.0" spacing="20.0">
-                    <children>
-                        <VBox prefHeight="200.0" prefWidth="380.0" spacing="10.0">
-                            <children>
-                                <Label text="Injury History">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
-                                </Label>
-                                <TableView fx:id="injuryHistoryTable" prefHeight="170.0" prefWidth="380.0">
-                                    <columns>
-                                        <TableColumn fx:id="injuryDateColumn" prefWidth="100.0" text="Date" />
-                                        <TableColumn fx:id="injuryTypeColumn" prefWidth="150.0" text="Type" />
-                                        <TableColumn fx:id="injuryDurationColumn" prefWidth="130.0" text="Duration" />
-                                    </columns>
-                                </TableView>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="380.0" spacing="10.0">
-                            <children>
-                                <Label text="Physical Tests">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
-                                </Label>
-                                <TableView fx:id="physicalTestsTable" prefHeight="170.0" prefWidth="380.0">
-                                    <columns>
-                                        <TableColumn fx:id="testDateColumn" prefWidth="100.0" text="Date" />
-                                        <TableColumn fx:id="testTypeColumn" prefWidth="150.0" text="Test Type" />
-                                        <TableColumn fx:id="testResultColumn" prefWidth="130.0" text="Result" />
-                                    </columns>
-                                </TableView>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="380.0" spacing="10.0">
-                            <children>
-                                <Label text="Training Load Management">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
-                                </Label>
-                                <LineChart fx:id="trainingLoadChart" legendVisible="false" prefHeight="170.0" prefWidth="400.0">
-                                    <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
-                                    </xAxis>
-                                    <yAxis>
-                                        <NumberAxis side="LEFT" />
-                                    </yAxis>
-                                </LineChart>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <Separator prefWidth="200.0" />
-                <HBox prefHeight="100.0" prefWidth="1172.0" spacing="20.0">
-                    <children>
-                        <VBox prefHeight="100.0" prefWidth="770.0" spacing="10.0">
-                            <children>
-                                <Label text="Coach Notes &amp; Recommendations">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <TextArea fx:id="coachNotesArea" prefHeight="75.0" prefWidth="770.0" promptText="Enter performance assessment and recommendations for this player..." wrapText="true" />
-                            </children>
-                        </VBox>
-                        <VBox alignment="CENTER" prefHeight="100.0" prefWidth="380.0" spacing="15.0">
-                            <children>
-                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                                    <children>
-                                        <Button mnemonicParsing="false" onAction="#savePlayerAssessment" prefHeight="35.0" prefWidth="170.0" text="Save Assessment" />
-                                        <Button mnemonicParsing="false" onAction="#generatePlayerReport" prefHeight="35.0" prefWidth="170.0" text="Generate PDF Report" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="380.0">
-                                    <children>
-                                        <Button mnemonicParsing="false" onAction="#dashboard" prefHeight="35.0" prefWidth="120.0" text="Dashboard" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-            </children>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal4">
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <Label text="Player Performance Assessment" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+            <Button text="Back to Dashboard" onAction="#dashboard"/>
+            <Separator/>
         </VBox>
-    </children>
-</AnchorPane>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="15" bottom="15" left="15"/>
+            </padding>
+
+            <!-- Summary section -->
+            <GridPane vgap="10" hgap="15">
+                <padding>
+                    <Insets bottom="15"/>
+                </padding>
+
+                <Label fx:id="nextMatchLabel" text="Next Match: Loading..."
+                       GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+                <Label fx:id="fitnessOverviewLabel" text="Squad Fitness: Loading..."
+                       GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+
+                <Label fx:id="trainingStatusLabel" text="Latest Training: Loading..."
+                       GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            </GridPane>
+
+            <!-- Filter section -->
+            <TitledPane text="Filter Options" expanded="false">
+                <VBox spacing="10">
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Label text="Position:"/>
+                        <ComboBox fx:id="positionFilterComboBox" prefWidth="150"/>
+
+                        <Label text="Status:" >
+                            <padding>
+                                <Insets left="20"/>
+                            </padding>
+                        </Label>
+                        <ComboBox fx:id="statusFilterComboBox" prefWidth="150"/>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Minimum Rating:"/>
+                        <Slider fx:id="ratingSlider" min="5" max="10" value="5"
+                                showTickLabels="true" showTickMarks="true" majorTickUnit="1"
+                                minorTickCount="1" snapToTicks="true" prefWidth="300"/>
+                    </HBox>
+                </VBox>
+            </TitledPane>
+
+            <!-- Split pane for table and chart -->
+            <SplitPane dividerPositions="0.6" VBox.vgrow="ALWAYS">
+                <!-- Player stats table -->
+                <TableView fx:id="playerStatsTable">
+                    <columns>
+                        <TableColumn fx:id="playerNameColumn" text="Player" prefWidth="140"/>
+                        <TableColumn fx:id="positionColumn" text="Position" prefWidth="80"/>
+                        <TableColumn fx:id="matchRatingColumn" text="Match Rating" prefWidth="100"/>
+                        <TableColumn fx:id="fatigueColumn" text="Fatigue %" prefWidth="80"/>
+                        <TableColumn fx:id="injuryStatusColumn" text="Status" prefWidth="80"/>
+                        <TableColumn fx:id="trainingProgressColumn" text="Training %" prefWidth="100"/>
+                    </columns>
+                </TableView>
+
+                <!-- Performance chart -->
+                <BarChart fx:id="performanceChart">
+                    <xAxis>
+                        <CategoryAxis fx:id="xAxis" side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="yAxis" side="LEFT" />
+                    </yAxis>
+                </BarChart>
+            </SplitPane>
+        </VBox>
+    </center>
+</BorderPane>

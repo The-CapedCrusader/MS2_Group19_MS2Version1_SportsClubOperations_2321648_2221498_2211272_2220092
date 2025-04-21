@@ -17,10 +17,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class HCGoal8 {
     @FXML private TableView<YouthPlayer> youthPlayersTable;
@@ -54,12 +59,13 @@ public class HCGoal8 {
     @FXML private TextArea promotionReasonArea;
 
     private ObservableList<YouthPlayer> allYouthPlayers = FXCollections.observableArrayList();
+    private Random random = new Random();
 
     @FXML
     public void initialize() {
         setupTable();
         setupFilters();
-        loadSampleData();
+        loadPlayersFromFile();
         setupListeners();
         setupPromotionOptions();
 
@@ -110,6 +116,48 @@ public class HCGoal8 {
         );
     }
 
+    private void loadPlayersFromFile() {
+        try {
+            File file = new File("user.bin");
+            if (file.exists()) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                    Object obj = ois.readObject();
+
+                    if (obj instanceof List<?>) {
+                        List<?> userList = (List<?>) obj;
+
+                        for (Object userObj : userList) {
+                            if (userObj instanceof Player) {
+                                Player player = (Player) userObj;
+
+                                // Convert Player to YouthPlayer with random potential and performance
+                                String potential = (3.5 + random.nextDouble() * 1.5) + "/5";
+                                String performance = (3.0 + random.nextDouble() * 2.0) + "/5";
+
+                                allYouthPlayers.add(new YouthPlayer(
+                                        player.getName(),
+                                        player.getAge(),
+                                        player.getPosition(),
+                                        potential,
+                                        performance,
+                                        "Under Review"
+                                ));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading player data: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        // If no players were loaded or file doesn't exist, add sample data
+        if (allYouthPlayers.isEmpty()) {
+            loadSampleData();
+        }
+    }
+
     private void loadSampleData() {
         allYouthPlayers.addAll(
                 new YouthPlayer("James Wilson", "18", "Forward", "4.5/5", "4.2/5", "Under Review"),
@@ -132,7 +180,12 @@ public class HCGoal8 {
         potentialLabel.setText("Potential: " + player.getPotential());
 
         // Set player image (placeholder)
-        playerImageView.setImage(new Image(getClass().getResourceAsStream("/images/player_placeholder.png")));
+        try {
+            playerImageView.setImage(new Image(getClass().getResourceAsStream("/images/player_placeholder.png")));
+        } catch (Exception e) {
+            System.err.println("Could not load player image: " + e.getMessage());
+            // No need to set null image as it will keep existing one
+        }
 
         // Load player statistics into bar chart
         XYChart.Series<String, Number> series = new XYChart.Series<>();

@@ -1,276 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal3">
-    <children>
-        <VBox layoutX="14.0" layoutY="14.0" prefHeight="772.0" prefWidth="1172.0" spacing="10.0">
-            <children>
-                <Label text="Match Tactics &amp; Strategy Planning">
-                    <font>
-                        <Font name="System Bold" size="20.0" />
-                    </font>
-                </Label>
-                <Separator prefWidth="200.0" />
-                <HBox prefHeight="100.0" prefWidth="1172.0" spacing="20.0">
-                    <children>
-                        <VBox prefHeight="100.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <Label text="Match Details">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="80.0" text="Opponent:" />
-                                        <ComboBox fx:id="opponentComboBox" prefHeight="25.0" prefWidth="250.0" promptText="Select opponent" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="80.0" text="Match Date:" />
-                                        <DatePicker fx:id="matchDatePicker" prefHeight="25.0" prefWidth="250.0" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="100.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="80.0" text="Venue:" />
-                                        <ComboBox fx:id="venueComboBox" prefHeight="25.0" prefWidth="250.0" promptText="Select venue" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="80.0" text="Competition:" />
-                                        <ComboBox fx:id="competitionComboBox" prefHeight="25.0" prefWidth="250.0" promptText="Select competition" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="100.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <VBox alignment="CENTER" prefHeight="100.0" prefWidth="350.0" fx:id="visualizationBox" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <Label text="Formation &amp; Strategy Settings">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Label>
-                <HBox prefHeight="150.0" prefWidth="1172.0" spacing="20.0">
-                    <children>
-                        <VBox prefHeight="150.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="130.0" text="Formation:" />
-                                        <ComboBox fx:id="formationComboBox" prefHeight="25.0" prefWidth="200.0" promptText="Select formation" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="130.0" text="Pressing Intensity:" />
-                                        <ComboBox fx:id="pressingIntensityComboBox" prefHeight="25.0" prefWidth="200.0" promptText="Select pressing style" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="130.0" text="Defensive Shape:" />
-                                        <ComboBox fx:id="defensiveShapeComboBox" prefHeight="25.0" prefWidth="200.0" promptText="Select defensive shape" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="150.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="130.0" text="Attacking Pattern:" />
-                                        <ComboBox fx:id="attackingPatternComboBox" prefHeight="25.0" prefWidth="200.0" promptText="Select attacking pattern" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="130.0" text="Possession Style:" />
-                                        <ComboBox fx:id="possessionStyleComboBox" prefHeight="25.0" prefWidth="200.0" promptText="Select possession style" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="150.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="100.0" text="Game Tempo:" />
-                                        <Slider fx:id="tempoSlider" max="100.0" prefHeight="14.0" prefWidth="230.0" value="50.0" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="100.0" text="Defense Line:" />
-                                        <Slider fx:id="defenseLineSlider" max="100.0" prefHeight="14.0" prefWidth="230.0" value="50.0" />
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="350.0" spacing="10.0">
-                                    <children>
-                                        <Label prefWidth="100.0" text="Team Width:" />
-                                        <Slider fx:id="widthSlider" max="100.0" prefHeight="14.0" prefWidth="230.0" value="50.0" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <Separator prefWidth="200.0" />
-                <Label text="Player Roles &amp; Instructions">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Label>
-                <HBox prefHeight="150.0" prefWidth="1172.0" spacing="10.0">
-                    <children>
-                        <TableView fx:id="playerRolesTable" prefHeight="150.0" prefWidth="1052.0">
-                            <columns>
-                                <TableColumn fx:id="playerNameColumn" prefWidth="250.0" text="Player Name" />
-                                <TableColumn fx:id="positionColumn" prefWidth="100.0" text="Position" />
-                                <TableColumn fx:id="roleColumn" prefWidth="200.0" text="Role" />
-                                <TableColumn fx:id="specificInstructionsColumn" prefWidth="500.0" text="Specific Instructions" />
-                            </columns>
-                        </TableView>
-                        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="100.0" spacing="10.0">
-                            <children>
-                                <Button mnemonicParsing="false" onAction="#addPlayerRole" prefHeight="30.0" prefWidth="80.0" text="Add" />
-                                <Button mnemonicParsing="false" onAction="#editPlayerRole" prefHeight="30.0" prefWidth="80.0" text="Edit" />
-                                <Button mnemonicParsing="false" onAction="#removePlayerRole" prefHeight="30.0" prefWidth="80.0" text="Remove" />
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <Separator prefWidth="200.0" />
-                <HBox prefHeight="150.0" prefWidth="1172.0" spacing="20.0">
-                    <children>
-                        <VBox prefHeight="150.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <Label text="Counter Strategy">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <TextArea fx:id="counterStrategyArea" prefHeight="120.0" prefWidth="350.0" promptText="Enter strategy for countering opponent's strengths..." wrapText="true" />
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="150.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <Label text="Set Pieces Strategy">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <TextArea fx:id="setpiecesStrategyArea" prefHeight="120.0" prefWidth="350.0" promptText="Enter set pieces strategy and assignments..." wrapText="true" />
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="150.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <Label text="Substitution Strategy">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <TextArea fx:id="substitutionStrategyArea" prefHeight="120.0" prefWidth="350.0" promptText="Enter substitution plans for different scenarios..." wrapText="true" />
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <HBox prefHeight="150.0" prefWidth="1172.0" spacing="20.0">
-                    <children>
-                        <VBox prefHeight="150.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <Label text="Defensive Phase">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <TextArea fx:id="defensivePhaseArea" prefHeight="120.0" prefWidth="350.0" promptText="Enter detailed approach for out-of-possession phases..." wrapText="true" />
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="150.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <Label text="Transition Phase">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <TextArea fx:id="transitionPhaseArea" prefHeight="120.0" prefWidth="350.0" promptText="Enter plans for transitions between defense and attack..." wrapText="true" />
-                            </children>
-                        </VBox>
-                        <VBox prefHeight="150.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <Label text="Attacking Phase">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                </Label>
-                                <TextArea fx:id="attackingPhaseArea" prefHeight="120.0" prefWidth="350.0" promptText="Enter detailed approach for in-possession phases..." wrapText="true" />
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <Separator prefWidth="200.0" />
-                <Label text="Saved Strategies">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Label>
-                <HBox prefHeight="150.0" prefWidth="1172.0" spacing="10.0">
-                    <children>
-                        <TableView fx:id="savedStrategiesTable" prefHeight="140.0" prefWidth="872.0">
-                            <columns>
-                                <TableColumn fx:id="strategyNameColumn" prefWidth="220.0" text="Strategy Name" />
-                                <TableColumn fx:id="opponentColumn" prefWidth="150.0" text="Opponent" />
-                                <TableColumn fx:id="dateColumn" prefWidth="120.0" text="Match Date" />
-                                <TableColumn fx:id="formationColumn" prefWidth="120.0" text="Formation" />
-                                <TableColumn fx:id="styleColumn" prefWidth="150.0" text="Playing Style" />
-                            </columns>
-                        </TableView>
-                        <VBox alignment="CENTER" prefHeight="140.0" prefWidth="280.0" spacing="10.0">
-                            <children>
-                                <Button mnemonicParsing="false" onAction="#saveStrategy" prefHeight="30.0" prefWidth="140.0" text="Save Strategy" />
-                                <Button mnemonicParsing="false" onAction="#deleteStrategy" prefHeight="30.0" prefWidth="140.0" text="Delete Strategy" />
-                                <Button mnemonicParsing="false" onAction="#generatePDF" prefHeight="30.0" prefWidth="140.0" text="Generate PDF" />
-                                <Button mnemonicParsing="false" onAction="#clearForm" prefHeight="30.0" prefWidth="140.0" text="Clear Form" />
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="1172.0">
-                    <children>
-                        <Button mnemonicParsing="false" onAction="#dashboard" prefHeight="30.0" prefWidth="120.0" text="Dashboard" />
-                    </children>
-                </HBox>
-            </children>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal3">
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <Label text="Tactical Strategy Planning" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+            <Button text="Back to Dashboard" onAction="#dashboard"/>
+            <Separator/>
         </VBox>
-    </children>
-</AnchorPane>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.7">
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <!-- Match details section -->
+                <TitledPane text="Match Details" expanded="true">
+                    <VBox spacing="10">
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <Label text="Opponent:"/>
+                            <ComboBox fx:id="opponentComboBox" prefWidth="200"/>
+                        </HBox>
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <Label text="Match Date:"/>
+                            <DatePicker fx:id="matchDatePicker"/>
+                        </HBox>
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <Label text="Formation:"/>
+                            <ComboBox fx:id="formationComboBox" prefWidth="150"/>
+                        </HBox>
+                    </VBox>
+                </TitledPane>
+
+                <!-- Tactics section -->
+                <TitledPane text="Tactical Approach" expanded="true">
+                    <VBox spacing="10">
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <Label text="Pressing Style:"/>
+                            <ComboBox fx:id="pressingStyleComboBox" prefWidth="150"/>
+                        </HBox>
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <Label text="Defensive Line:"/>
+                            <ComboBox fx:id="defensiveLineComboBox" prefWidth="150"/>
+                        </HBox>
+                        <Label text="Tactical Notes:"/>
+                        <TextArea fx:id="tacticalNotesArea" prefHeight="100"/>
+                    </VBox>
+                </TitledPane>
+
+                <!-- Player assignments section -->
+                <TitledPane text="Player Assignments" expanded="true" VBox.vgrow="ALWAYS">
+                    <VBox spacing="10">
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button text="Edit Player Role" onAction="#editPlayerRole"/>
+                            <Label fx:id="lastTrainingSessionLabel" style="-fx-font-style: italic;"/>
+                        </HBox>
+                        <TableView fx:id="playerAssignmentsTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="playerNameColumn" text="Player" prefWidth="150"/>
+                                <TableColumn fx:id="positionColumn" text="Position" prefWidth="100"/>
+                                <TableColumn fx:id="roleColumn" text="Role" prefWidth="150"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </TitledPane>
+
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button text="Save Strategy" onAction="#saveStrategy"/>
+                </HBox>
+            </VBox>
+
+            <VBox spacing="10">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Saved Strategies" style="-fx-font-weight: bold;"/>
+                <ListView fx:id="savedStrategiesListView" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </SplitPane>
+    </center>
+</BorderPane>
