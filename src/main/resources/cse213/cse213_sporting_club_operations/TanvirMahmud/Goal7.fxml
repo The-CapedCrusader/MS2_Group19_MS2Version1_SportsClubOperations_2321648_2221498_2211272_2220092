@@ -1,95 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.Goal7">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.Goal7">
    <children>
-      <VBox layoutX="14.0" layoutY="14.0" prefHeight="772.0" prefWidth="972.0" spacing="10.0">
+      <VBox prefHeight="600.0" prefWidth="1000.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
          <children>
-            <Label text="Player Scouting Dashboard">
+            <Label text="Player Scouting System">
                <font>
-                  <Font name="System Bold" size="20.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
+
             <Separator prefWidth="200.0" />
-            <HBox prefHeight="150.0" prefWidth="972.0" spacing="20.0">
-               <children>
-                  <VBox prefHeight="150.0" prefWidth="450.0" spacing="10.0">
-                     <children>
-                        <Label text="Filter and Search">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
-                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="450.0" spacing="10.0">
-                           <children>
-                              <Label prefWidth="80.0" text="Position:" />
-                              <ComboBox fx:id="positionFilterComboBox" prefHeight="25.0" prefWidth="200.0" promptText="Select position" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="450.0" spacing="10.0">
-                           <children>
-                              <Label fx:id="ageFromLabel" prefWidth="100.0" text="Age From: 18" />
-                              <Slider fx:id="ageFromSlider" blockIncrement="1.0" majorTickUnit="4.0" max="40.0" min="16.0" minorTickCount="3" prefHeight="14.0" prefWidth="320.0" showTickLabels="true" showTickMarks="true" value="18.0" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="450.0" spacing="10.0">
-                           <children>
-                              <Label fx:id="ageToLabel" prefWidth="100.0" text="Age To: 35" />
-                              <Slider fx:id="ageToSlider" blockIncrement="1.0" majorTickUnit="4.0" max="40.0" min="16.0" minorTickCount="3" prefHeight="14.0" prefWidth="320.0" showTickLabels="true" showTickMarks="true" value="35.0" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="150.0" prefWidth="450.0" spacing="10.0">
-                     <children>
-                        <Label text="Market Value &amp; Sorting">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
-                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="450.0" spacing="10.0">
-                           <children>
-                              <Label fx:id="valueFromLabel" prefWidth="150.0" text="Value From: $0.00" />
-                              <Slider fx:id="valueFromSlider" blockIncrement="5.0" majorTickUnit="20.0" max="100.0" minorTickCount="1" prefHeight="14.0" prefWidth="270.0" showTickLabels="true" showTickMarks="true" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="450.0" spacing="10.0">
-                           <children>
-                              <Label fx:id="valueToLabel" prefWidth="150.0" text="Value To: $50,000,000.00" />
-                              <Slider fx:id="valueToSlider" blockIncrement="5.0" majorTickUnit="20.0" max="100.0" minorTickCount="1" prefHeight="14.0" prefWidth="270.0" showTickLabels="true" showTickMarks="true" value="50.0" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="450.0" spacing="10.0">
-                           <children>
-                              <Label prefWidth="80.0" text="Sort by:" />
-                              <ComboBox fx:id="statSortComboBox" prefHeight="25.0" prefWidth="200.0" promptText="Select statistic" />
-                              <TextField fx:id="searchField" prefHeight="25.0" prefWidth="200.0" promptText="Search players...">
-                                 <HBox.margin>
-                                    <Insets left="20.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <Separator prefWidth="200.0" />
+
+            <!-- Scouted Players Table -->
             <Label text="Scouted Players">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -97,100 +28,63 @@
             </Label>
             <TableView fx:id="scoutedPlayersTable" prefHeight="200.0" prefWidth="972.0">
                <columns>
-                  <TableColumn fx:id="nameColumn" prefWidth="120.0" text="Name" />
-                  <TableColumn fx:id="ageColumn" prefWidth="50.0" text="Age" />
-                  <TableColumn fx:id="positionColumn" prefWidth="100.0" text="Position" />
-                  <TableColumn fx:id="clubColumn" prefWidth="120.0" text="Club" />
-                  <TableColumn fx:id="valueColumn" prefWidth="100.0" text="Value" />
-                  <TableColumn fx:id="technicalColumn" prefWidth="80.0" text="Technical" />
-                  <TableColumn fx:id="physicalColumn" prefWidth="80.0" text="Physical" />
-                  <TableColumn fx:id="mentalColumn" prefWidth="80.0" text="Mental" />
-                  <TableColumn fx:id="goalsColumn" prefWidth="60.0" text="Goals" />
-                  <TableColumn fx:id="assistsColumn" prefWidth="60.0" text="Assists" />
-                  <TableColumn fx:id="scoutRatingColumn" prefWidth="100.0" text="Scout Rating" />
+                  <TableColumn fx:id="nameColumn" prefWidth="250.0" text="Name" />
+                  <TableColumn fx:id="ageColumn" prefWidth="100.0" text="Age" />
+                  <TableColumn fx:id="positionColumn" prefWidth="200.0" text="Position" />
+                  <TableColumn fx:id="fitColumn" prefWidth="150.0" text="Fit" />
+                  <TableColumn fx:id="valueColumn" prefWidth="250.0" text="Market Value" />
                </columns>
             </TableView>
+
+            <!-- Player Notes Section -->
             <HBox prefHeight="150.0" prefWidth="972.0" spacing="20.0">
                <children>
-                  <VBox prefHeight="150.0" prefWidth="450.0" spacing="10.0">
+                  <VBox prefHeight="150.0" prefWidth="600.0" spacing="10.0">
                      <children>
                         <Label fx:id="selectedPlayerLabel" text="Selected Player Notes">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TextArea fx:id="playerNotesArea" prefHeight="110.0" prefWidth="450.0" promptText="Add scout notes about this player..." wrapText="true" />
+                        <TextArea fx:id="playerNotesArea" prefHeight="110.0" prefWidth="600.0" promptText="Add scout notes about this player..." wrapText="true" />
                      </children>
                   </VBox>
-                  <VBox alignment="TOP_RIGHT" prefHeight="150.0" prefWidth="450.0" spacing="10.0">
+                  <VBox alignment="TOP_RIGHT" prefHeight="150.0" prefWidth="300.0" spacing="10.0">
                      <children>
                         <Label text="Actions">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
-                           <VBox.margin>
-                              <Insets right="350.0" />
-                           </VBox.margin>
                         </Label>
-                        <Button mnemonicParsing="false" onAction="#saveNotes" prefHeight="30.0" prefWidth="120.0" text="Save Notes">
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false" onAction="#addToShortlist" prefHeight="30.0" prefWidth="120.0" text="Add to Shortlist">
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false" onAction="#generateReport" prefHeight="30.0" prefWidth="120.0" text="Generate Report" />
+                        <Button mnemonicParsing="false" onAction="#saveNotes" text="Save Notes" />
+                        <Button mnemonicParsing="false" onAction="#addToShortlist" text="Add to Shortlist" />
                      </children>
                   </VBox>
                </children>
             </HBox>
+
             <Separator prefWidth="200.0" />
-            <HBox prefHeight="150.0" prefWidth="972.0" spacing="20.0">
-               <children>
-                  <VBox prefHeight="150.0" prefWidth="450.0" spacing="10.0">
-                     <children>
-                        <Label text="Squad Needs">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
-                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="450.0" spacing="10.0">
-                           <children>
-                              <ComboBox fx:id="squadNeedComboBox" prefHeight="25.0" prefWidth="200.0" promptText="Select position need" />
-                              <Button mnemonicParsing="false" onAction="#addSquadNeed" prefHeight="25.0" prefWidth="100.0" text="Add Need" />
-                              <Button mnemonicParsing="false" onAction="#removeSquadNeed" prefHeight="25.0" prefWidth="100.0" text="Remove Need" />
-                           </children>
-                        </HBox>
-                        <ListView fx:id="squadNeedsListView" prefHeight="90.0" prefWidth="450.0" />
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="150.0" prefWidth="450.0" spacing="10.0">
-                     <children>
-                        <Label text="Player Shortlist">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </Label>
-                        <TableView fx:id="shortlistTable" prefHeight="120.0" prefWidth="450.0">
-                           <columns>
-                              <TableColumn fx:id="shortlistNameColumn" prefWidth="120.0" text="Name" />
-                              <TableColumn fx:id="shortlistPositionColumn" prefWidth="80.0" text="Position" />
-                              <TableColumn fx:id="shortlistClubColumn" prefWidth="90.0" text="Club" />
-                              <TableColumn fx:id="shortlistValueColumn" prefWidth="85.0" text="Value" />
-                              <TableColumn fx:id="shortlistRatingColumn" prefWidth="70.0" text="Rating" />
-                           </columns>
-                        </TableView>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
+
+            <!-- Shortlist Section -->
+            <Label text="Player Shortlist">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TableView fx:id="shortlistTable" prefHeight="120.0" prefWidth="972.0">
+               <columns>
+                  <TableColumn fx:id="shortlistNameColumn" prefWidth="250.0" text="Name" />
+                  <TableColumn fx:id="shortlistPositionColumn" prefWidth="200.0" text="Position" />
+                  <TableColumn fx:id="shortlistFitColumn" prefWidth="150.0" text="Fit" />
+                  <TableColumn fx:id="shortlistValueColumn" prefWidth="250.0" text="Market Value" />
+               </columns>
+            </TableView>
+
+            <!-- Bottom Buttons -->
             <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="972.0" spacing="20.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#removeFromShortlist" prefHeight="30.0" prefWidth="150.0" text="Remove from Shortlist" />
-                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#goal7Dashboard" prefHeight="30.0" prefWidth="120.0" text="Dashboard">
+                  <Button mnemonicParsing="false" onAction="#removeFromShortlist" text="Remove from Shortlist" />
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#goal7Dashboard" text="Dashboard">
                      <HBox.margin>
                         <Insets left="680.0" />
                      </HBox.margin>
