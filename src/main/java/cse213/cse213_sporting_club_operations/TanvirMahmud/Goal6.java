@@ -54,13 +54,6 @@ public class Goal6 {
         // Load players
         if (Goal1_AllPlayers.playerList != null && !Goal1_AllPlayers.playerList.isEmpty()) {
             players.addAll(Goal1_AllPlayers.playerList);
-        } else {
-            // Sample data if no players exist
-            players.add(new Player("Mason Greenwood", "20", "Forward", "75%", "$10M"));
-            players.add(new Player("Tanguy Ndombele", "25", "Midfielder", "80%", "$15M"));
-            players.add(new Player("Philippe Coutinho", "30", "Midfielder", "85%", "$20M"));
-            players.add(new Player("Donny van de Beek", "25", "Midfielder", "78%", "$18M"));
-            players.add(new Player("Joe Hart", "35", "Goalkeeper", "70%", "$2M"));
         }
 
         // Populate player names in combobox
@@ -342,50 +335,5 @@ public class Goal6 {
     }
 
     // Model class for loan deals
-    public static class LoanDeal {
-        private final String playerName;
-        private final String receivingClub;
-        private final String sendingClub;
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final double loanFee;
-        private final boolean buyOption;
-        private final double buyoutPrice;
-        private final String wageStructure;
-        private final boolean recallClause;
-        private final String specialTerms;
-        private String status;
 
-        public LoanDeal(String playerName, String receivingClub, String sendingClub,
-                        LocalDate startDate, LocalDate endDate, double loanFee,
-                        boolean buyOption, double buyoutPrice, String wageStructure,
-                        boolean recallClause, String specialTerms, String status) {
-            this.playerName = playerName;
-            this.receivingClub = receivingClub;
-            this.sendingClub = sendingClub;
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.loanFee = loanFee;
-            this.buyOption = buyOption;
-            this.buyoutPrice = buyoutPrice;
-            this.wageStructure = wageStructure;
-            this.recallClause = recallClause;
-            this.specialTerms = specialTerms;
-            this.status = status;
-        }
-
-        public String getPlayerName() { return playerName; }
-        public String getReceivingClub() { return receivingClub; }
-        public String getSendingClub() { return sendingClub; }
-        public LocalDate getStartDate() { return startDate; }
-        public LocalDate getEndDate() { return endDate; }
-        public double getLoanFee() { return loanFee; }
-        public boolean hasBuyOption() { return buyOption; }
-        public double getBuyoutPrice() { return buyoutPrice; }
-        public String getWageStructure() { return wageStructure; }
-        public boolean hasRecallClause() { return recallClause; }
-        public String getSpecialTerms() { return specialTerms; }
-        public String getStatus() { return status; }
-        public void setStatus(String status) { this.status = status; }
-    }
 }

@@ -79,9 +79,6 @@ public class Goal5 {
     }
 
     private void addSampleTransactions() {
-        addTransaction(15000000.0, "Player Purchase", "Signed midfielder James Rodriguez", LocalDate.now().minusDays(30), true);
-        addTransaction(8000000.0, "Player Sale", "Sold defender David Luiz", LocalDate.now().minusDays(15), true);
-        addTransaction(5000000.0, "Salary Increase", "Contract renewal for striker", LocalDate.now().minusDays(7), true);
     }
 
     private void updateBudgetDisplays() {
@@ -340,27 +337,6 @@ public class Goal5 {
         SceneSwitcher.switchTo("DashboardTransferWindowManager.fxml", actionEvent);
     }
 
-    // Transaction model class
-    public static class Transaction {
-        private final double amount;
-        private final String type;
-        private final String description;
-        private final LocalDate date;
-        private final boolean compliant;
+    
 
-        public Transaction(double amount, String type, String description,
-                           LocalDate date, boolean compliant) {
-            this.amount = amount;
-            this.type = type;
-            this.description = description;
-            this.date = date;
-            this.compliant = compliant;
-        }
-
-        public double getAmount() { return amount; }
-        public String getType() { return type; }
-        public String getDescription() { return description; }
-        public LocalDate getDate() { return date; }
-        public boolean isCompliant() { return compliant; }
-    }
 }

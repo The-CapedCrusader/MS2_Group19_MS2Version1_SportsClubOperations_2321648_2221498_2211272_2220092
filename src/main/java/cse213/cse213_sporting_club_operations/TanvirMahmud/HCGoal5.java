@@ -145,15 +145,15 @@ public class HCGoal5 {
     }
 
     private void initializeCharts() {
-        // Player capability chart setup
+
         playerCapabilityChart.setTitle("Player Attributes");
         playerCapabilityChart.setAnimated(false);
 
-        // Role suitability chart setup
+
         roleSuitabilityChart.setTitle("Role Suitability");
         roleSuitabilityChart.setAnimated(false);
 
-        // Team balance chart setup
+
         teamBalanceChart.setTitle("Team Tactical Balance");
         teamBalanceChart.setAnimated(false);
 
@@ -161,17 +161,12 @@ public class HCGoal5 {
     }
 
     private void populateSampleData() {
-        // Sample player data
+
         allPlayers.addAll(
-                new PlayerData("David De Gea", "Goalkeeper", "Traditional"),
-                new PlayerData("Harry Maguire", "Center Back", "Stopper"),
-                new PlayerData("Luke Shaw", "Left Back", "Attacking"),
-                new PlayerData("Bruno Fernandes", "Midfielder", "Playmaker"),
-                new PlayerData("Marcus Rashford", "Forward", "Inside Forward"),
-                new PlayerData("Cristiano Ronaldo", "Forward", "Complete Forward")
+
         );
 
-        // Sample player capabilities
+
         for (PlayerData player : allPlayers) {
             Map<String, Double> capabilities = new HashMap<>();
             capabilities.put("Passing", Math.random() * 100);
