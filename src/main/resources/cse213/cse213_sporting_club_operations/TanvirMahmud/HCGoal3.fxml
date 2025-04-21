@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal3">
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal3">
     <top>
-        <VBox spacing="10">
+        <VBox alignment="TOP_CENTER" spacing="10">
             <padding>
-                <Insets top="15" right="15" bottom="15" left="15"/>
+                <Insets bottom="15" left="15" right="15" top="15" />
             </padding>
-            <Label text="Tactical Strategy Planning" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
-            <Button text="Back to Dashboard" onAction="#dashboard"/>
-            <Separator/>
+            <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Tactical Strategy Planning" />
+            <Button onAction="#dashboard" text="Back to Dashboard" />
+            <Separator />
         </VBox>
     </top>
 
@@ -22,70 +32,70 @@
         <SplitPane dividerPositions="0.7">
             <VBox spacing="10">
                 <padding>
-                    <Insets top="10" right="10" bottom="10" left="10"/>
+                    <Insets bottom="10" left="10" right="10" top="10" />
                 </padding>
                 <!-- Match details section -->
-                <TitledPane text="Match Details" expanded="true">
+                <TitledPane expanded="true" text="Match Details">
                     <VBox spacing="10">
-                        <HBox spacing="15" alignment="CENTER_LEFT">
-                            <Label text="Opponent:"/>
-                            <ComboBox fx:id="opponentComboBox" prefWidth="200"/>
+                        <HBox alignment="CENTER_LEFT" spacing="15">
+                            <Label text="Opponent:" />
+                            <ComboBox fx:id="opponentComboBox" prefWidth="200" />
                         </HBox>
-                        <HBox spacing="15" alignment="CENTER_LEFT">
-                            <Label text="Match Date:"/>
-                            <DatePicker fx:id="matchDatePicker"/>
+                        <HBox alignment="CENTER_LEFT" spacing="15">
+                            <Label text="Match Date:" />
+                            <DatePicker fx:id="matchDatePicker" />
                         </HBox>
-                        <HBox spacing="15" alignment="CENTER_LEFT">
-                            <Label text="Formation:"/>
-                            <ComboBox fx:id="formationComboBox" prefWidth="150"/>
+                        <HBox alignment="CENTER_LEFT" spacing="15">
+                            <Label text="Formation:" />
+                            <ComboBox fx:id="formationComboBox" prefWidth="150" />
                         </HBox>
                     </VBox>
                 </TitledPane>
 
                 <!-- Tactics section -->
-                <TitledPane text="Tactical Approach" expanded="true">
+                <TitledPane expanded="true" text="Tactical Approach">
                     <VBox spacing="10">
-                        <HBox spacing="15" alignment="CENTER_LEFT">
-                            <Label text="Pressing Style:"/>
-                            <ComboBox fx:id="pressingStyleComboBox" prefWidth="150"/>
+                        <HBox alignment="CENTER_LEFT" spacing="15">
+                            <Label text="Pressing Style:" />
+                            <ComboBox fx:id="pressingStyleComboBox" prefWidth="150" />
                         </HBox>
-                        <HBox spacing="15" alignment="CENTER_LEFT">
-                            <Label text="Defensive Line:"/>
-                            <ComboBox fx:id="defensiveLineComboBox" prefWidth="150"/>
+                        <HBox alignment="CENTER_LEFT" spacing="15">
+                            <Label text="Defensive Line:" />
+                            <ComboBox fx:id="defensiveLineComboBox" prefWidth="150" />
                         </HBox>
-                        <Label text="Tactical Notes:"/>
-                        <TextArea fx:id="tacticalNotesArea" prefHeight="100"/>
+                        <Label text="Tactical Notes:" />
+                        <TextArea fx:id="tacticalNotesArea" prefHeight="100" />
                     </VBox>
                 </TitledPane>
 
                 <!-- Player assignments section -->
-                <TitledPane text="Player Assignments" expanded="true" VBox.vgrow="ALWAYS">
+                <TitledPane expanded="true" text="Player Assignments" VBox.vgrow="ALWAYS">
                     <VBox spacing="10">
-                        <HBox spacing="10" alignment="CENTER_LEFT">
-                            <Button text="Edit Player Role" onAction="#editPlayerRole"/>
-                            <Label fx:id="lastTrainingSessionLabel" style="-fx-font-style: italic;"/>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Button onAction="#editPlayerRole" text="Edit Player Role" />
+                            <Label fx:id="lastTrainingSessionLabel" style="-fx-font-style: italic;" />
                         </HBox>
                         <TableView fx:id="playerAssignmentsTable" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="playerNameColumn" text="Player" prefWidth="150"/>
-                                <TableColumn fx:id="positionColumn" text="Position" prefWidth="100"/>
-                                <TableColumn fx:id="roleColumn" text="Role" prefWidth="150"/>
+                                <TableColumn fx:id="playerNameColumn" prefWidth="150" text="Player" />
+                                <TableColumn fx:id="positionColumn" prefWidth="100" text="Position" />
+                                <TableColumn fx:id="roleColumn" prefWidth="150" text="Role" />
                             </columns>
                         </TableView>
                     </VBox>
                 </TitledPane>
 
-                <HBox spacing="10" alignment="CENTER_RIGHT">
-                    <Button text="Save Strategy" onAction="#saveStrategy"/>
+                <HBox alignment="CENTER_RIGHT" prefHeight="0.0" prefWidth="910.0" spacing="10">
+                    <Button onAction="#saveStrategy" text="Save Strategy" />
                 </HBox>
             </VBox>
 
-            <VBox spacing="10">
+            <VBox prefHeight="950.0" prefWidth="513.0" spacing="10">
                 <padding>
-                    <Insets top="10" right="10" bottom="10" left="10"/>
+                    <Insets bottom="10" left="10" right="10" top="10" />
                 </padding>
-                <Label text="Saved Strategies" style="-fx-font-weight: bold;"/>
-                <ListView fx:id="savedStrategiesListView" VBox.vgrow="ALWAYS"/>
+                <Label style="-fx-font-weight: bold;" text="Saved Strategies" />
+                <ListView fx:id="savedStrategiesListView" VBox.vgrow="ALWAYS" />
             </VBox>
         </SplitPane>
     </center>
