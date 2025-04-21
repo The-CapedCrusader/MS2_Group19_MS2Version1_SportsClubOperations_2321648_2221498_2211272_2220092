@@ -22,18 +22,17 @@ public class Goal2 {
 
     @javafx.fxml.FXML
     public void initialize() {
-        // Set up columns
+
         acTC.setCellValueFactory(new PropertyValueFactory<>("name"));
         rejTC.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        // Load and categorize player data
         loadAndCategorizePlayerData();
     }
 
     private void loadAndCategorizePlayerData() {
         List<Player> allPlayers = new ArrayList<>();
 
-        // Try to get players from static list in Goal1_AllPlayers
+
         if (!Goal1_AllPlayers.playerList.isEmpty()) {
             allPlayers.addAll(Goal1_AllPlayers.playerList);
         } else {

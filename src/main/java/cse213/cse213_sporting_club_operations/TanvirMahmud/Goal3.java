@@ -9,9 +9,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 public class Goal3 {
-    // Player selection
+
     @FXML private ComboBox<Player> playerComboBox;
 
     // Contract details inputs
@@ -29,15 +32,14 @@ public class Goal3 {
     @FXML private TableColumn<Contract, String> releaseColumn;
 
     private ObservableList<Contract> contracts = FXCollections.observableArrayList();
-    @FXML
-    private Button deleteContract;
+
+
 
     @FXML
+
     public void initialize() {
-        // Set up player dropdown
-        if (!Goal1_AllPlayers.playerList.isEmpty()) {
-            playerComboBox.setItems(FXCollections.observableArrayList(Goal1_AllPlayers.playerList));
-        }
+        // Load players from user.bin
+        loadPlayersFromBinaryFile();
 
         // Set up contract length spinner (1-5 years)
         SpinnerValueFactory<Integer> valueFactory =
@@ -54,7 +56,23 @@ public class Goal3 {
         contractsTable.setItems(contracts);
     }
 
-    @Deprecated
+    private void loadPlayersFromBinaryFile() {
+        try (ObjectInputStream ois = new ObjectInputStream(
+                new FileInputStream("data/user.bin"))) {
+
+            ArrayList<Player> loadedPlayers = (ArrayList<Player>) ois.readObject();
+            ObservableList<Player> playerList = FXCollections.observableArrayList(loadedPlayers);
+            playerComboBox.setItems(playerList);
+
+            System.out.println("Loaded " + playerList.size() + " players from user.bin");
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading players from user.bin: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error", "Failed to load players from binary file: " + e.getMessage());
+        }
+    }
+
+    @FXML
     public void createContract(ActionEvent event) {
         Player selectedPlayer = playerComboBox.getValue();
         if (selectedPlayer == null) {
@@ -91,24 +109,7 @@ public class Goal3 {
         }
     }
 
-    @Deprecated
-    public void deleteContract(ActionEvent event) {
-        Contract selectedContract = contractsTable.getSelectionModel().getSelectedItem();
-        if (selectedContract == null) {
-            showAlert("Error", "Please select a contract to delete");
-            return;
-        }
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm Delete");
-        alert.setHeaderText("Delete Contract");
-        alert.setContentText("Are you sure you want to delete " + selectedContract.getPlayerName() + "'s contract?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            contracts.remove(selectedContract);
-        }
-    }
 
     private void clearForm() {
         playerComboBox.setValue(null);
@@ -131,27 +132,6 @@ public class Goal3 {
         SceneSwitcher.switchTo("DashboardTransferWindowManager.fxml", actionEvent);
     }
 
-    // Contract class to hold contract details
-    public static class Contract {
-        private final String playerName;
-        private final String salary;
-        private final String bonus;
-        private final int contractLength;
-        private final String releaseClause;
 
-        public Contract(String playerName, String salary, String bonus,
-                        int contractLength, String releaseClause) {
-            this.playerName = playerName;
-            this.salary = salary;
-            this.bonus = bonus;
-            this.contractLength = contractLength;
-            this.releaseClause = releaseClause;
-        }
 
-        public String getPlayerName() { return playerName; }
-        public String getSalary() { return salary; }
-        public String getBonus() { return bonus; }
-        public int getContractLength() { return contractLength; }
-        public String getReleaseClause() { return releaseClause; }
-    }
 }

@@ -11,10 +11,10 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.Goal3">
    <children>
       <Button layoutX="463.0" layoutY="330.0" mnemonicParsing="false" onAction="#goal3Dashboard" text="Dashboard" />
-      <ComboBox fx:id="playerComboBox" layoutX="33.0" layoutY="43.0" prefWidth="150.0" />
-      <TextField fx:id="salaryField" layoutX="34.0" layoutY="84.0" />
-      <TextField fx:id="releaseClauseField" layoutX="33.0" layoutY="168.0" />
-      <TextField fx:id="bonusField" layoutX="33.0" layoutY="126.0" />
+      <ComboBox fx:id="playerComboBox" layoutX="33.0" layoutY="43.0" prefWidth="150.0" promptText="Choose Player" />
+      <TextField fx:id="salaryField" layoutX="34.0" layoutY="84.0" promptText="Salary" />
+      <TextField fx:id="releaseClauseField" layoutX="33.0" layoutY="168.0" promptText="Release Clause" />
+      <TextField fx:id="bonusField" layoutX="33.0" layoutY="126.0" promptText="Bonus" />
       <Spinner fx:id="contractLengthSpinner" layoutX="34.0" layoutY="224.0" />
       <TableView fx:id="contractsTable" layoutX="224.0" layoutY="56.0" prefHeight="200.0" prefWidth="381.0">
         <columns>
@@ -25,7 +25,6 @@
             <TableColumn fx:id="releaseColumn" prefWidth="75.0" text="release" />
         </columns>
       </TableView>
-      <Button layoutX="216.0" layoutY="317.0" mnemonicParsing="false" text="createContract" />
-      <Button fx:id="deleteContract" layoutX="216.0" layoutY="356.0" mnemonicParsing="false" text="deleteContract" />
+      <Button layoutX="216.0" layoutY="317.0" mnemonicParsing="false" onAction="#createContract" text="createContract" />
    </children>
 </AnchorPane>

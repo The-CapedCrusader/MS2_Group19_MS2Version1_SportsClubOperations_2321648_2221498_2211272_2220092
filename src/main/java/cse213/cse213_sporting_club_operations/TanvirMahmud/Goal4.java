@@ -7,7 +7,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -40,34 +43,18 @@ public class Goal4 {
 
     @FXML
     public void initialize() {
-        // Load players
-        if (Goal1_AllPlayers.playerList != null && !Goal1_AllPlayers.playerList.isEmpty()) {
-            players.addAll(Goal1_AllPlayers.playerList);
-        } else {
-            // Sample data if no players exist
-            players.add(new Player("Messi", "35", "Forward", "95%", "$50M"));
-            players.add(new Player("Ronaldo", "38", "Forward", "93%", "$45M"));
-            players.add(new Player("Neymar", "31", "Forward", "88%", "$40M"));
-            players.add(new Player("Salah", "30", "Forward", "91%", "$35M"));
-            players.add(new Player("De Bruyne", "31", "Midfielder", "90%", "$38M"));
-        }
 
-        // Populate player names
-        ObservableList<String> playerNames = FXCollections.observableArrayList();
-        for (Player player : players) {
-            playerNames.add(player.getName());
-        }
-        playerComboBox.setItems(playerNames);
+        loadPlayersFromBinaryFile();
 
-        // Set up radio buttons
+
         mutualAgreementRadio.setToggleGroup(terminationTypeGroup);
         clubDecisionRadio.setToggleGroup(terminationTypeGroup);
         mutualAgreementRadio.setSelected(true);
 
-        // Set default date to today
+
         terminationDatePicker.setValue(LocalDate.now());
 
-        // Set up table columns
+
         playerColumn.setCellValueFactory(new PropertyValueFactory<>("playerName"));
         teamColumn.setCellValueFactory(new PropertyValueFactory<>("team"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("terminationType"));
@@ -77,12 +64,76 @@ public class Goal4 {
 
         terminationsTable.setItems(terminatedContracts);
 
-        // Add listener for player selection
+
         playerComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 updatePlayerDetails(newVal);
             }
         });
+    }
+
+    private void loadPlayersFromBinaryFile() {
+
+        String[] possiblePaths = {
+                "user.bin",
+                "data/user.bin",
+                "../user.bin",
+                "src/main/resources/user.bin",
+                "target/classes/user.bin",
+                System.getProperty("user.dir") + "/user.bin"
+        };
+
+        boolean fileLoaded = false;
+
+        for (String path : possiblePaths) {
+            File file = new File(path);
+            if (file.exists()) {
+                try (ObjectInputStream ois = new ObjectInputStream(
+                        new FileInputStream(file))) {
+
+                    ArrayList<Player> loadedPlayers = (ArrayList<Player>) ois.readObject();
+                    players.addAll(loadedPlayers);
+
+                    // Populate player names in ComboBox
+                    ObservableList<String> playerNames = FXCollections.observableArrayList();
+                    for (Player player : players) {
+                        playerNames.add(player.getName());
+                    }
+                    playerComboBox.setItems(playerNames);
+
+                    System.out.println("Loaded " + players.size() + " players from " + path);
+                    fileLoaded = true;
+                    break;
+                } catch (IOException | ClassNotFoundException e) {
+                    System.out.println("Error reading from " + path + ": " + e.getMessage());
+                }
+            } else {
+                System.out.println("File not found: " + path);
+            }
+        }
+
+        if (!fileLoaded) {
+            System.err.println("Could not load players from any file path. Using sample data instead.");
+            loadSamplePlayers();
+            showAlert("Warning", "Failed to load players from binary file. Using sample data instead.",
+                    Alert.AlertType.WARNING);
+        }
+    }
+
+    private void loadSamplePlayers() {
+
+        players.add(new Player("Messi", "35", "Forward", "95%", "$50M"));
+        players.add(new Player("Ronaldo", "38", "Forward", "93%", "$45M"));
+        players.add(new Player("Neymar", "31", "Forward", "88%", "$40M"));
+        players.add(new Player("Salah", "30", "Forward", "91%", "$35M"));
+        players.add(new Player("De Bruyne", "31", "Midfielder", "90%", "$38M"));
+
+        // Populate player names
+        ObservableList<String> playerNames = FXCollections.observableArrayList();
+        for (Player player : players) {
+            playerNames.add(player.getName());
+        }
+        playerComboBox.setItems(playerNames);
     }
 
     private void updatePlayerDetails(String playerName) {
@@ -124,11 +175,11 @@ public class Goal4 {
             return;
         }
 
-        // Get termination type
+
         String terminationType = mutualAgreementRadio.isSelected() ?
                 "Mutual Agreement" : "Club Decision";
 
-        // Create terminated contract
+
         TerminatedContract terminatedContract = new TerminatedContract(
                 playerName,
                 teamField.getText(),
@@ -138,7 +189,7 @@ public class Goal4 {
                 complianceCheckBox.isSelected()
         );
 
-        // Add to table
+
         terminatedContracts.add(terminatedContract);
 
         // Clear form
@@ -188,32 +239,5 @@ public class Goal4 {
     @FXML
     public void goal4Dashboard(ActionEvent actionEvent) throws IOException {
         SceneSwitcher.switchTo("DashboardTransferWindowManager.fxml", actionEvent);
-    }
-
-    // Class to represent a terminated contract
-    public static class TerminatedContract {
-        private final String playerName;
-        private final String team;
-        private final String terminationType;
-        private final LocalDate terminationDate;
-        private final String reason;
-        private final boolean compliant;
-
-        public TerminatedContract(String playerName, String team, String terminationType,
-                                  LocalDate terminationDate, String reason, boolean compliant) {
-            this.playerName = playerName;
-            this.team = team;
-            this.terminationType = terminationType;
-            this.terminationDate = terminationDate;
-            this.reason = reason;
-            this.compliant = compliant;
-        }
-
-        public String getPlayerName() { return playerName; }
-        public String getTeam() { return team; }
-        public String getTerminationType() { return terminationType; }
-        public LocalDate getTerminationDate() { return terminationDate; }
-        public String getReason() { return reason; }
-        public boolean isCompliant() { return compliant; }
     }
 }
