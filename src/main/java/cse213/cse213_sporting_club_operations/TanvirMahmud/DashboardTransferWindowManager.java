@@ -12,42 +12,42 @@ public class DashboardTransferWindowManager
 
     @javafx.fxml.FXML
     public void goal2(ActionEvent actionEvent) throws IOException{
-        SceneSwitcher.switchTo("Goal2.fxml", actionEvent);
+        SceneSwitcher.switchTo("PlayerEvaluation.fxml", actionEvent);
     }
 
     @javafx.fxml.FXML
     public void goal1(ActionEvent actionEvent) throws IOException{
-        SceneSwitcher.switchTo("goal1_AllPlayers.fxml", actionEvent);
+        SceneSwitcher.switchTo("AllPlayers.fxml", actionEvent);
     }
 
     @javafx.fxml.FXML
     public void goal8(ActionEvent actionEvent) throws IOException{
-        SceneSwitcher.switchTo("Goal8.fxml", actionEvent);
+        SceneSwitcher.switchTo("PlayerTransfer.fxml", actionEvent);
     }
 
     @javafx.fxml.FXML
     public void goal7(ActionEvent actionEvent) throws IOException{
-        SceneSwitcher.switchTo("Goal7.fxml",actionEvent);
+        SceneSwitcher.switchTo("PlayerScouting.fxml",actionEvent);
     }
 
     @javafx.fxml.FXML
     public void goal6(ActionEvent actionEvent) throws IOException{
-        SceneSwitcher.switchTo("Goal6.fxml", actionEvent);
+        SceneSwitcher.switchTo("LocalDeal.fxml", actionEvent);
     }
 
     @javafx.fxml.FXML
     public void goal5(ActionEvent actionEvent) throws IOException{
-        SceneSwitcher.switchTo("Goal5.fxml", actionEvent);
+        SceneSwitcher.switchTo("FinancialManagement.fxml", actionEvent);
     }
 
     @javafx.fxml.FXML
     public void goal4(ActionEvent actionEvent) throws IOException{
-        SceneSwitcher.switchTo("Goal4.fxml", actionEvent);
+        SceneSwitcher.switchTo("ContractTermination.fxml", actionEvent);
     }
 
     @javafx.fxml.FXML
     public void goal3(ActionEvent actionEvent) throws IOException{
-        SceneSwitcher.switchTo("Goal3.fxml", actionEvent);
+        SceneSwitcher.switchTo("CreateContract.fxml", actionEvent);
     }
 
     @javafx.fxml.FXML

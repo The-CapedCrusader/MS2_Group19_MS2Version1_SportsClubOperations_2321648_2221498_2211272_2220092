@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.RoleAssignment_Controller">
+    <children>
+        <VBox layoutX="14.0" layoutY="14.0" prefHeight="772.0" prefWidth="1172.0" spacing="10.0">
+            <children>
+                <Label text="Player Role Assignment &amp; Tactical Adjustment">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <Separator prefWidth="200.0" />
+                <HBox prefHeight="350.0" prefWidth="1172.0" spacing="20.0">
+                    <children>
+                        <VBox prefHeight="350.0" prefWidth="380.0" spacing="10.0">
+                            <children>
+                                <Label text="Squad Players">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="380.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Position Filter:" />
+                                        <ComboBox fx:id="positionFilterComboBox" prefHeight="30.0" prefWidth="150.0" promptText="All Positions" />
+                                        <Button mnemonicParsing="false" onAction="#applyFilter" prefHeight="30.0" prefWidth="100.0" text="Apply Filter" />
+                                    </children>
+                                </HBox>
+                                <TableView fx:id="playersTableView" prefHeight="290.0" prefWidth="380.0">
+                                    <columns>
+                                        <TableColumn fx:id="playerNameColumn" prefWidth="180.0" text="Player Name" />
+                                        <TableColumn fx:id="positionColumn" prefWidth="100.0" text="Position" />
+                                        <TableColumn fx:id="currentRoleColumn" prefWidth="100.0" text="Current Role" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="350.0" prefWidth="430.0" spacing="10.0">
+                            <children>
+                                <Label text="Player Analysis &amp; Role Assignment">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="430.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Selected Player:" />
+                                        <Label fx:id="selectedPlayerLabel" text="[No player selected]" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="200.0" prefWidth="430.0" spacing="20.0">
+                                    <children>
+                                        <BarChart fx:id="playerCapabilityChart" legendVisible="false" prefHeight="170.0" prefWidth="200.0">
+                                            <xAxis>
+                                                <CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                                <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                        </BarChart>
+                                        <BarChart fx:id="roleSuitabilityChart" legendVisible="false" prefHeight="170.0" prefWidth="200.0">
+                                            <xAxis>
+                                                <CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                                <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                        </BarChart>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="430.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Assign Role:" />
+                                        <ComboBox fx:id="roleAssignmentComboBox" prefHeight="30.0" prefWidth="200.0" promptText="Select a role" />
+                                        <Button mnemonicParsing="false" onAction="#assignRole" prefHeight="30.0" prefWidth="120.0" text="Assign Role" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="50.0" prefWidth="430.0" spacing="10.0">
+                                    <children>
+                                        <VBox prefHeight="60.0" prefWidth="430.0" spacing="5.0">
+                                            <children>
+                                                <Label text="Attacking Freedom:" />
+                                                <Slider fx:id="attackingFreedomSlider" blockIncrement="1.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="5.0" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="350.0" prefWidth="320.0" spacing="10.0">
+                            <children>
+                                <Label text="Tactical Field Visualization">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <Pane fx:id="fieldVisualizationPane" prefHeight="280.0" prefWidth="320.0" style="-fx-background-color: #228B22; -fx-border-color: #FFFFFF;" />
+                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="320.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Formation:" />
+                                        <ComboBox fx:id="formationSelectionComboBox" prefHeight="30.0" prefWidth="120.0" promptText="4-3-3" />
+                                        <Button mnemonicParsing="false" onAction="#updateFormation" prefHeight="30.0" prefWidth="120.0" text="Update Formation" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <Separator prefWidth="200.0" />
+                <Label text="Role Instructions &amp; Team Instructions">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <HBox prefHeight="200.0" prefWidth="1172.0" spacing="20.0">
+                    <children>
+                        <VBox prefHeight="200.0" prefWidth="380.0" spacing="10.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="380.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Current Role:" />
+                                        <Label fx:id="currentRoleLabel" text="[No role selected]" />
+                                    </children>
+                                </HBox>
+                                <Label text="Role Instructions:">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                </Label>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="380.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Defensive Duty:" />
+                                        <ComboBox fx:id="defensiveDutyComboBox" prefHeight="25.0" prefWidth="150.0" promptText="Select duty" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="380.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Support Duty:" />
+                                        <ComboBox fx:id="supportDutyComboBox" prefHeight="25.0" prefWidth="150.0" promptText="Select duty" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="380.0" spacing="10.0">
+                                    <children>
+                                        <Label text="Attacking Duty:" />
+                                        <ComboBox fx:id="attackingDutyComboBox" prefHeight="25.0" prefWidth="150.0" promptText="Select duty" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="380.0" spacing="10.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#saveRoleInstructions" prefHeight="25.0" prefWidth="120.0" text="Save Instructions" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="380.0" spacing="10.0">
+                            <children>
+                                <Label text="Player Specific Instructions">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <TextArea fx:id="playerInstructionsArea" prefHeight="160.0" prefWidth="380.0" promptText="Enter specific tactical instructions for this player..." wrapText="true" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="380.0" spacing="10.0">
+                            <children>
+                                <Label text="Team Balance Analysis">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <BarChart fx:id="teamBalanceChart" horizontalGridLinesVisible="false" legendVisible="false" prefHeight="130.0" prefWidth="380.0" verticalGridLinesVisible="false">
+                                    <xAxis>
+                                        <CategoryAxis side="BOTTOM" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis side="LEFT" />
+                                    </yAxis>
+                                </BarChart>
+                                <HBox alignment="CENTER" prefHeight="60.0" prefWidth="380.0" spacing="20.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#optimizeRoles" prefHeight="30.0" prefWidth="180.0" text="Optimize Team Roles" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <Separator prefWidth="200.0" />
+                <HBox prefHeight="130.0" prefWidth="1172.0" spacing="20.0">
+                    <children>
+                        <VBox prefHeight="130.0" prefWidth="760.0" spacing="10.0">
+                            <children>
+                                <Label text="Team Role Assignments">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <TableView fx:id="teamRolesTableView" prefHeight="100.0" prefWidth="760.0">
+                                    <columns>
+                                        <TableColumn fx:id="teamPlayerColumn" prefWidth="150.0" text="Player" />
+                                        <TableColumn fx:id="teamPositionColumn" prefWidth="100.0" text="Position" />
+                                        <TableColumn fx:id="teamRoleColumn" prefWidth="150.0" text="Role" />
+                                        <TableColumn fx:id="teamDutyColumn" prefWidth="100.0" text="Duty" />
+                                        <TableColumn fx:id="teamCompatibilityColumn" prefWidth="120.0" text="Compatibility %" />
+                                        <TableColumn fx:id="teamNotesColumn" prefWidth="140.0" text="Notes" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="130.0" prefWidth="380.0" spacing="15.0">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="380.0" spacing="20.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#saveTeamSetup" prefHeight="30.0" prefWidth="120.0" text="Save Setup" />
+                                        <Button mnemonicParsing="false" onAction="#generateRoleReport" prefHeight="30.0" prefWidth="120.0" text="Generate Report" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="380.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#exportTeamSheet" prefHeight="30.0" prefWidth="120.0" text="Export Team Sheet" />
+                                        <Button mnemonicParsing="false" onAction="#dashboard" prefHeight="30.0" prefWidth="120.0" text="Dashboard">
+                                            <HBox.margin>
+                                                <Insets left="20.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

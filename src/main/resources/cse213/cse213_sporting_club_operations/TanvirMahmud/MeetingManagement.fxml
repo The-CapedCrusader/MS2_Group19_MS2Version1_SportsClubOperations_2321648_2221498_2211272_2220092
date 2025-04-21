@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.MeetingManagementController">
+    <children>
+        <VBox layoutX="15.0" layoutY="15.0" prefHeight="670.0" prefWidth="970.0" spacing="10.0">
+            <children>
+                <Label text="Team Meeting Management">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <Separator prefWidth="200.0" />
+                <HBox prefHeight="300.0" prefWidth="970.0" spacing="20.0">
+                    <children>
+                        <VBox prefHeight="300.0" prefWidth="400.0" spacing="10.0">
+                            <children>
+                                <Label text="Schedule a Meeting">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="Meeting Type:" />
+                                        <ComboBox fx:id="meetingTypeComboBox" prefHeight="25.0" prefWidth="270.0" promptText="Select meeting type" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="Date:" />
+                                        <DatePicker fx:id="meetingDatePicker" prefHeight="25.0" prefWidth="270.0" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="Time:" />
+                                        <ComboBox fx:id="meetingTimeComboBox" prefHeight="25.0" prefWidth="270.0" promptText="Select time" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="Location:" />
+                                        <ComboBox fx:id="locationComboBox" prefHeight="25.0" prefWidth="270.0" promptText="Select meeting location" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="100.0" text="Title:" />
+                                        <TextField fx:id="meetingTitleField" prefHeight="25.0" prefWidth="270.0" promptText="Enter meeting title" />
+                                    </children>
+                                </HBox>
+                                <Label text="Agenda:" />
+                                <TextArea fx:id="meetingAgendaArea" prefHeight="60.0" prefWidth="200.0" promptText="Enter meeting agenda" wrapText="true" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="300.0" prefWidth="520.0" spacing="10.0">
+                            <children>
+                                <Label text="Meeting Participants">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" spacing="10.0">
+                                    <children>
+                                        <ComboBox fx:id="participantComboBox" prefHeight="25.0" prefWidth="320.0" promptText="Select participant" />
+                                        <Button fx:id="addParticipantButton" mnemonicParsing="false" onAction="#addParticipant" prefHeight="25.0" prefWidth="80.0" text="Add" />
+                                        <Button fx:id="removeParticipantButton" mnemonicParsing="false" onAction="#removeParticipant" prefHeight="25.0" prefWidth="80.0" text="Remove" />
+                                    </children>
+                                </HBox>
+                                <Label text="Selected Participants:" />
+                                <ListView fx:id="attendeeListView" prefHeight="150.0" prefWidth="200.0" />
+                                <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="200.0" spacing="20.0">
+                                    <children>
+                                        <CheckBox fx:id="notifyParticipantsCheckBox" mnemonicParsing="false" text="Notify all participants immediately" />
+                                        <Button fx:id="scheduleMeetingButton" mnemonicParsing="false" onAction="#scheduleMeeting" prefHeight="30.0" prefWidth="160.0" text="Schedule Meeting" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <Separator prefWidth="200.0" />
+                <Label text="Scheduled Meetings">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <TableView fx:id="scheduledMeetingsTable" prefHeight="120.0" prefWidth="970.0">
+                    <columns>
+                        <TableColumn fx:id="titleColumn" prefWidth="200.0" text="Title" />
+                        <TableColumn fx:id="typeColumn" prefWidth="150.0" text="Type" />
+                        <TableColumn fx:id="dateColumn" prefWidth="120.0" text="Date" />
+                        <TableColumn fx:id="timeColumn" prefWidth="100.0" text="Time" />
+                        <TableColumn fx:id="locationColumn" prefWidth="150.0" text="Location" />
+                        <TableColumn fx:id="attendeesColumn" prefWidth="120.0" text="Attendees" />
+                        <TableColumn fx:id="statusColumn" prefWidth="120.0" text="Status" />
+                    </columns>
+                </TableView>
+                <HBox prefHeight="200.0" prefWidth="970.0" spacing="20.0">
+                    <children>
+                        <VBox prefHeight="200.0" prefWidth="450.0" spacing="5.0">
+                            <children>
+                                <Label text="Meeting Notes:">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                </Label>
+                                <TextArea fx:id="meetingNotesArea" prefHeight="170.0" prefWidth="200.0" promptText="Enter meeting notes" wrapText="true" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="450.0" spacing="5.0">
+                            <children>
+                                <Label text="Action Items:">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                </Label>
+                                <TextArea fx:id="actionItemsArea" prefHeight="170.0" prefWidth="200.0" promptText="Enter action items" wrapText="true" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="970.0" spacing="20.0">
+                    <children>
+                        <Label text="Meeting Status:" />
+                        <ComboBox fx:id="meetingStatusComboBox" prefHeight="25.0" prefWidth="150.0" promptText="Select status" />
+                        <Button fx:id="saveMeetingRecordButton" mnemonicParsing="false" onAction="#saveMeetingRecord" prefHeight="30.0" prefWidth="150.0" text="Save Meeting Record" />
+                        <Button fx:id="generateReportButton" mnemonicParsing="false" onAction="#generateReport" prefHeight="30.0" prefWidth="150.0" text="Generate Report" />
+                        <Button mnemonicParsing="false" onAction="#deleteMeeting" prefHeight="30.0" prefWidth="120.0" text="Delete Meeting" />
+                        <Button mnemonicParsing="false" onAction="#dashboard" prefHeight="30.0" prefWidth="120.0" text="Dashboard" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

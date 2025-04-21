@@ -2,9 +2,7 @@ package cse213.cse213_sporting_club_operations.TanvirMahmud;
 
 import java.io.*;
 import java.util.*;
-import cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal1.PlayerLineup;
-import cse213.cse213_sporting_club_operations.TanvirMahmud.HCGoal3;
-import cse213.cse213_sporting_club_operations.TanvirMahmud.TrainingSession;
+import cse213.cse213_sporting_club_operations.TanvirMahmud.TeamLineUp_Controller.PlayerLineup;
 
 public class HeadCoachDataManager {
     // Use relative path instead of absolute path
@@ -215,15 +213,15 @@ public class HeadCoachDataManager {
         return players;
     }
 
-    public static List<HCGoal3.TacticalStrategy> loadTacticalStrategies() {
-        List<HCGoal3.TacticalStrategy> strategies = new ArrayList<>();
+    public static List<TacticalPlanning_Controller.TacticalStrategy> loadTacticalStrategies() {
+        List<TacticalPlanning_Controller.TacticalStrategy> strategies = new ArrayList<>();
 
         try {
             File file = new File(DATA_DIRECTORY, "tactics.bin");
             if (file.exists()) {
                 try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                     @SuppressWarnings("unchecked")
-                    List<HCGoal3.TacticalStrategy> loadedStrategies = (List<HCGoal3.TacticalStrategy>) ois.readObject();
+                    List<TacticalPlanning_Controller.TacticalStrategy> loadedStrategies = (List<TacticalPlanning_Controller.TacticalStrategy>) ois.readObject();
                     if (loadedStrategies != null) {
                         strategies.addAll(loadedStrategies);
                     }
@@ -236,7 +234,7 @@ public class HeadCoachDataManager {
         return strategies;
     }
 
-    public static void saveTacticalStrategies(List<HCGoal3.TacticalStrategy> strategies) {
+    public static void saveTacticalStrategies(List<TacticalPlanning_Controller.TacticalStrategy> strategies) {
         try {
             // Make sure data directory exists
             createDirectory(DATA_DIRECTORY);

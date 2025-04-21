@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.YouthAcademy_Controller">
+    <children>
+        <VBox layoutX="14.0" layoutY="14.0" prefHeight="772.0" prefWidth="972.0" spacing="10.0">
+            <children>
+                <Label text="Youth Academy Player Promotion">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <HBox prefHeight="40.0" prefWidth="972.0" spacing="15.0">
+                    <children>
+                        <TextField fx:id="searchField" prefHeight="25.0" prefWidth="250.0" promptText="Search players..." />
+                        <ComboBox fx:id="positionFilterComboBox" prefHeight="25.0" prefWidth="150.0" promptText="Position" />
+                        <ComboBox fx:id="ageGroupFilterComboBox" prefHeight="25.0" prefWidth="150.0" promptText="Age Group" />
+                        <Button mnemonicParsing="false" onAction="#resetFilters" prefHeight="25.0" prefWidth="100.0" text="Reset Filters" />
+                    </children>
+                </HBox>
+                <TableView fx:id="youthPlayersTable" prefHeight="200.0" prefWidth="972.0">
+                    <columns>
+                        <TableColumn fx:id="nameColumn" prefWidth="200.0" text="Player Name" />
+                        <TableColumn fx:id="ageColumn" prefWidth="100.0" text="Age" />
+                        <TableColumn fx:id="positionColumn" prefWidth="150.0" text="Position" />
+                        <TableColumn fx:id="potentialColumn" prefWidth="150.0" text="Potential" />
+                        <TableColumn fx:id="performanceColumn" prefWidth="150.0" text="Performance" />
+                        <TableColumn fx:id="statusColumn" prefWidth="200.0" text="Status" />
+                    </columns>
+                </TableView>
+                <Separator prefWidth="200.0" />
+                <HBox prefHeight="300.0" prefWidth="972.0" spacing="20.0">
+                    <children>
+                        <VBox prefHeight="300.0" prefWidth="300.0" spacing="10.0">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+                                    <children>
+                                        <ImageView fx:id="playerImageView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+                                    </children>
+                                </HBox>
+                                <Label fx:id="playerNameLabel" text="Player Name" textAlignment="CENTER">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="ageLabel" text="Age:" />
+                                <Label fx:id="positionLabel" text="Position:" />
+                                <Label fx:id="potentialLabel" text="Potential:" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="300.0" prefWidth="650.0">
+                            <children>
+                                <BarChart fx:id="statsBarChart" prefHeight="300.0" prefWidth="633.0" title="Player Statistics">
+                                    <xAxis>
+                                        <CategoryAxis fx:id="xAxis" side="BOTTOM" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis fx:id="yAxis" side="LEFT" />
+                                    </yAxis>
+                                </BarChart>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <Separator prefWidth="200.0" />
+                <HBox prefHeight="180.0" prefWidth="972.0" spacing="15.0">
+                    <children>
+                        <VBox prefHeight="180.0" prefWidth="315.0" spacing="5.0">
+                            <children>
+                                <Label text="Strengths">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <TextArea fx:id="strengthsArea" editable="false" prefHeight="150.0" prefWidth="315.0" promptText="Player strengths will appear here" wrapText="true" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="180.0" prefWidth="315.0" spacing="5.0">
+                            <children>
+                                <Label text="Areas for Improvement">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <TextArea fx:id="weaknessesArea" editable="false" prefHeight="150.0" prefWidth="315.0" promptText="Areas for improvement will appear here" wrapText="true" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="180.0" prefWidth="315.0" spacing="5.0">
+                            <children>
+                                <Label text="Coach Notes">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <TextArea fx:id="coachNotesArea" prefHeight="150.0" prefWidth="315.0" promptText="Enter notes about player development..." wrapText="true" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <Separator prefWidth="200.0" />
+                <Label text="Promotion Evaluation">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <HBox prefHeight="40.0" prefWidth="972.0" spacing="15.0">
+                    <children>
+                        <Label text="Evaluation Date:" />
+                        <DatePicker fx:id="evaluationDatePicker" prefHeight="25.0" prefWidth="150.0" />
+                        <Label text="Promotion Status:" />
+                        <ComboBox fx:id="promotionStatusComboBox" prefHeight="25.0" prefWidth="200.0" promptText="Select status..." />
+                    </children>
+                </HBox>
+                <VBox prefHeight="75.0" prefWidth="972.0" spacing="5.0">
+                    <children>
+                        <Label text="Promotion Reasoning" />
+                        <TextArea fx:id="promotionReasonArea" prefHeight="50.0" prefWidth="972.0" promptText="Enter reasoning for promotion decision..." wrapText="true" />
+                    </children>
+                </VBox>
+                <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="972.0" spacing="15.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#saveEvaluation" prefHeight="30.0" prefWidth="150.0" text="Save Evaluation" />
+                        <Button mnemonicParsing="false" onAction="#promotePlayer" prefHeight="30.0" prefWidth="150.0" text="Promote to First Team" />
+                        <Button mnemonicParsing="false" onAction="#generateReport" prefHeight="30.0" prefWidth="150.0" text="Generate Report" />
+                        <Button mnemonicParsing="false" onAction="#dashboard" prefHeight="30.0" prefWidth="120.0" text="Dashboard" />
+                    </children>
+                    <padding>
+                        <Insets top="10.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

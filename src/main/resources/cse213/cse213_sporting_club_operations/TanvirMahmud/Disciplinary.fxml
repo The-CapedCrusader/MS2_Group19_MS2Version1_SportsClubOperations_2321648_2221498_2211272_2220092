@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.DisciplinaryController">
+    <children>
+        <VBox layoutX="14.0" layoutY="14.0" prefHeight="772.0" prefWidth="972.0" spacing="10.0">
+            <children>
+                <Label text="Player Disciplinary Management">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <Separator prefWidth="200.0" />
+                <HBox prefHeight="300.0" prefWidth="972.0" spacing="20.0">
+                    <children>
+                        <VBox prefHeight="298.0" prefWidth="476.0" spacing="10.0">
+                            <children>
+                                <Label text="Disciplinary Action Details">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <HBox prefHeight="30.0" prefWidth="476.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="120.0" text="Player:" />
+                                        <ComboBox fx:id="playerComboBox" prefHeight="25.0" prefWidth="300.0" promptText="Select Player" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="30.0" prefWidth="476.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="120.0" text="Incident Date:" />
+                                        <DatePicker fx:id="incidentDatePicker" prefHeight="25.0" prefWidth="300.0" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="30.0" prefWidth="476.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="120.0" text="Incident Type:" />
+                                        <ComboBox fx:id="incidentTypeComboBox" prefHeight="25.0" prefWidth="300.0" promptText="Select Incident Type" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="30.0" prefWidth="476.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="120.0" text="Location:" />
+                                        <TextField fx:id="locationField" prefHeight="25.0" prefWidth="300.0" promptText="Location of incident" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="110.0" prefWidth="476.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="120.0" text="Description:" />
+                                        <TextArea fx:id="descriptionArea" prefHeight="110.0" prefWidth="300.0" promptText="Detailed description of the incident" wrapText="true" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="298.0" prefWidth="476.0" spacing="10.0">
+                            <children>
+                                <Label text="Action Details">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <HBox prefHeight="30.0" prefWidth="476.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="120.0" text="Action Type:" />
+                                        <ComboBox fx:id="actionTypeComboBox" prefHeight="25.0" prefWidth="300.0" promptText="Select Action Type" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="30.0" prefWidth="476.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="120.0" text="Fine Amount:" />
+                                        <TextField fx:id="fineAmountField" disable="true" prefHeight="25.0" prefWidth="300.0" promptText="Amount (if applicable)" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="30.0" prefWidth="476.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="120.0" text="Start Date:" />
+                                        <DatePicker fx:id="startDatePicker" disable="true" prefHeight="25.0" prefWidth="300.0" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="30.0" prefWidth="476.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="120.0" text="End Date:" />
+                                        <DatePicker fx:id="endDatePicker" disable="true" prefHeight="25.0" prefWidth="300.0" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="30.0" prefWidth="476.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="120.0" text="League Reported:" />
+                                        <CheckBox fx:id="leagueReportedCheckBox" mnemonicParsing="false" text="Report to league authorities" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="80.0" prefWidth="476.0" spacing="10.0">
+                                    <children>
+                                        <Label prefWidth="120.0" text="Notes:" />
+                                        <TextArea fx:id="actionNotesArea" prefHeight="80.0" prefWidth="300.0" promptText="Additional notes about the action" wrapText="true" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="40.0" prefWidth="972.0" spacing="20.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#saveDisciplinaryAction" prefHeight="30.0" prefWidth="140.0" text="Save Action" />
+                        <Button mnemonicParsing="false" onAction="#updateDisciplinaryAction" prefHeight="30.0" prefWidth="140.0" text="Update Action" />
+                        <Button mnemonicParsing="false" onAction="#deleteDisciplinaryAction" prefHeight="30.0" prefWidth="140.0" text="Delete Action" />
+                        <Button mnemonicParsing="false" onAction="#clearForm" prefHeight="30.0" prefWidth="140.0" text="Clear Form" />
+                    </children>
+                </HBox>
+                <Separator prefWidth="200.0" />
+                <Label text="Disciplinary History">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <HBox prefHeight="40.0" prefWidth="972.0" spacing="10.0">
+                    <children>
+                        <Label text="Filter:" />
+                        <ComboBox fx:id="filterPlayerComboBox" prefHeight="30.0" prefWidth="200.0" promptText="Select Player" />
+                        <ComboBox fx:id="filterTypeComboBox" prefHeight="30.0" prefWidth="200.0" promptText="Select Type" />
+                        <ComboBox fx:id="statusFilterComboBox" prefHeight="30.0" prefWidth="200.0" promptText="Select Status" />
+                        <Button mnemonicParsing="false" onAction="#applyFilter" prefHeight="30.0" prefWidth="100.0" text="Apply Filter" />
+                        <Button mnemonicParsing="false" onAction="#resetFilter" prefHeight="30.0" prefWidth="100.0" text="Reset Filter" />
+                    </children>
+                </HBox>
+                <HBox prefHeight="230.0" prefWidth="972.0" spacing="20.0">
+                    <children>
+                        <TableView fx:id="disciplinaryTable" prefHeight="230.0" prefWidth="650.0">
+                            <columns>
+                                <TableColumn fx:id="playerColumn" prefWidth="120.0" text="Player" />
+                                <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Date" />
+                                <TableColumn fx:id="incidentColumn" prefWidth="130.0" text="Incident Type" />
+                                <TableColumn fx:id="actionColumn" prefWidth="120.0" text="Action" />
+                                <TableColumn fx:id="durationColumn" prefWidth="90.0" text="Duration" />
+                                <TableColumn fx:id="statusColumn" prefWidth="90.0" text="Status" />
+                            </columns>
+                        </TableView>
+                        <PieChart fx:id="disciplinaryPieChart" prefHeight="230.0" prefWidth="302.0" />
+                    </children>
+                </HBox>
+                <Separator prefWidth="200.0" />
+                <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="972.0" spacing="20.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#generateReport" prefHeight="30.0" prefWidth="150.0" text="Generate Report" />
+                        <Button mnemonicParsing="false" onAction="#dashboard" prefHeight="30.0" prefWidth="150.0" text="Dashboard" />
+                    </children>
+                    <padding>
+                        <Insets right="20.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

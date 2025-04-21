@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="cse213.cse213_sporting_club_operations.TanvirMahmud.PerformanceAssessnment_Controller">
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <Label text="Player Performance Assessment" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+            <Button text="Back to Dashboard" onAction="#dashboard"/>
+            <Separator/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="15" bottom="15" left="15"/>
+            </padding>
+
+            <!-- Summary section -->
+            <GridPane vgap="10" hgap="15">
+                <padding>
+                    <Insets bottom="15"/>
+                </padding>
+
+                <Label fx:id="nextMatchLabel" text="Next Match: Loading..."
+                       GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+                <Label fx:id="fitnessOverviewLabel" text="Squad Fitness: Loading..."
+                       GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+
+                <Label fx:id="trainingStatusLabel" text="Latest Training: Loading..."
+                       GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            </GridPane>
+
+            <!-- Filter section -->
+            <TitledPane text="Filter Options" expanded="false">
+                <VBox spacing="10">
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Label text="Position:"/>
+                        <ComboBox fx:id="positionFilterComboBox" prefWidth="150"/>
+
+                        <Label text="Status:" >
+                            <padding>
+                                <Insets left="20"/>
+                            </padding>
+                        </Label>
+                        <ComboBox fx:id="statusFilterComboBox" prefWidth="150"/>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Minimum Rating:"/>
+                        <Slider fx:id="ratingSlider" min="5" max="10" value="5"
+                                showTickLabels="true" showTickMarks="true" majorTickUnit="1"
+                                minorTickCount="1" snapToTicks="true" prefWidth="300"/>
+                    </HBox>
+                </VBox>
+            </TitledPane>
+
+            <!-- Split pane for table and chart -->
+            <SplitPane dividerPositions="0.6" VBox.vgrow="ALWAYS">
+                <!-- Player stats table -->
+                <TableView fx:id="playerStatsTable">
+                    <columns>
+                        <TableColumn fx:id="playerNameColumn" text="Player" prefWidth="140"/>
+                        <TableColumn fx:id="positionColumn" text="Position" prefWidth="80"/>
+                        <TableColumn fx:id="matchRatingColumn" text="Match Rating" prefWidth="100"/>
+                        <TableColumn fx:id="fatigueColumn" text="Fatigue %" prefWidth="80"/>
+                        <TableColumn fx:id="injuryStatusColumn" text="Status" prefWidth="80"/>
+                        <TableColumn fx:id="trainingProgressColumn" text="Training %" prefWidth="100"/>
+                    </columns>
+                </TableView>
+
+                <!-- Performance chart -->
+                <BarChart fx:id="performanceChart">
+                    <xAxis>
+                        <CategoryAxis fx:id="xAxis" side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="yAxis" side="LEFT" />
+                    </yAxis>
+                </BarChart>
+            </SplitPane>
+        </VBox>
+    </center>
+</BorderPane>
