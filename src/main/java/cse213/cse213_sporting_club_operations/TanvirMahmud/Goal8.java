@@ -9,10 +9,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Goal8 {
@@ -49,8 +50,13 @@ public class Goal8 {
     private ObservableList<TransferRecord> transfers = FXCollections.observableArrayList();
     private ArrayList<Player> players = new ArrayList<>();
 
+    private static final String USER_DATA_FILE = "C:\\Users\\Tanvir Mahmud\\Desktop\\SportsClubOperations\\data\\user.bin";
+
     @FXML
     public void initialize() {
+        // Load player data from user.bin
+        loadPlayersFromFile();
+
         // Initialize transfer types
         transferTypeComboBox.setItems(FXCollections.observableArrayList(
                 "Permanent Transfer", "Release/Free Transfer", "Contract Termination",
@@ -95,16 +101,6 @@ public class Goal8 {
 
         transferTable.setItems(transfers);
 
-        // Load sample players
-        loadSamplePlayers();
-
-        // Populate player combo box
-        ObservableList<String> playerNames = FXCollections.observableArrayList();
-        for (Player player : players) {
-            playerNames.add(player.getName());
-        }
-        playerComboBox.setItems(playerNames);
-
         // Add listener for player selection
         playerComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
@@ -113,44 +109,53 @@ public class Goal8 {
                 clearPlayerDetails();
             }
         });
-
-        // Add sample transfers
-        loadSampleTransfers();
     }
 
-    private void loadSamplePlayers() {
-        // Use sample data or load from elsewhere if available
-        if (Goal1_AllPlayers.playerList != null && !Goal1_AllPlayers.playerList.isEmpty()) {
-            players.addAll(Goal1_AllPlayers.playerList);
-        } else {
-            players.add(new Player("John Smith", "28", "Forward", "80%", "$12M"));
-            players.add(new Player("David Lopez", "32", "Defender", "75%", "$8M"));
-            players.add(new Player("Michael Chen", "24", "Midfielder", "90%", "$25M"));
-            players.add(new Player("Robert Johnson", "30", "Goalkeeper", "85%", "$15M"));
-            players.add(new Player("Khalid Al-Saeed", "26", "Forward", "88%", "$22M"));
+    private void loadPlayersFromFile() {
+        try {
+            File file = new File(USER_DATA_FILE);
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                List<Player> playerList = (List<Player>) ois.readObject();
+                players.clear();
+                players.addAll(playerList);
+
+                ois.close();
+                fis.close();
+
+                System.out.println("Loaded " + playerList.size() + " players from " + USER_DATA_FILE);
+
+                // Update the ComboBox with loaded players
+                ObservableList<String> playerNames = FXCollections.observableArrayList();
+                for (Player player : players) {
+                    playerNames.add(player.getName());
+                }
+                playerComboBox.setItems(playerNames);
+            } else {
+                System.out.println("User.bin file not found at: " + USER_DATA_FILE);
+                loadSampleData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error loading from user.bin: " + e.getMessage());
+            loadSampleData();
         }
     }
 
-    private void loadSampleTransfers() {
-        transfers.add(new TransferRecord(
-                "Carlos Sanchez",
-                "Permanent Transfer",
-                "AC Milan",
-                15.5,
-                LocalDate.now().minusMonths(2),
-                "Completed",
-                true, true, true, true, true, true
-        ));
+    private void loadSampleData() {
+        players.clear();
+        players.add(new Player("Jude Bellingham", "20", "Midfielder", "95%", "$120M"));
+        players.add(new Player("Erling Haaland", "23", "Striker", "98%", "$180M"));
+        players.add(new Player("Florian Wirtz", "20", "Midfielder", "92%", "$85M"));
 
-        transfers.add(new TransferRecord(
-                "Thomas Wilson",
-                "Release/Free Transfer",
-                null,
-                0.0,
-                LocalDate.now().minusMonths(1),
-                "Completed",
-                true, true, true, true, true, true
-        ));
+        // Update ComboBox
+        ObservableList<String> playerNames = FXCollections.observableArrayList();
+        for (Player player : players) {
+            playerNames.add(player.getName());
+        }
+        playerComboBox.setItems(playerNames);
     }
 
     private void updatePlayerDetails(String playerName) {
@@ -458,74 +463,5 @@ public class Goal8 {
     }
 
     // Transfer record class
-    public static class TransferRecord {
-        private final String playerName;
-        private final String transferType;
-        private final String destinationClub;
-        private final Double transferFee;
-        private final LocalDate transferDate;
-        private String status;
 
-        // Checklist fields
-        private boolean medicalClearance;
-        private boolean financialSettlement;
-        private boolean contractTermination;
-        private boolean playerConsent;
-        private boolean transferDocuments;
-        private boolean leagueNotification;
-
-        public TransferRecord(String playerName, String transferType, String destinationClub,
-                              Double transferFee, LocalDate transferDate, String status,
-                              boolean medicalClearance, boolean financialSettlement,
-                              boolean contractTermination, boolean playerConsent,
-                              boolean transferDocuments, boolean leagueNotification) {
-            this.playerName = playerName;
-            this.transferType = transferType;
-            this.destinationClub = destinationClub;
-            this.transferFee = transferFee;
-            this.transferDate = transferDate;
-            this.status = status;
-            this.medicalClearance = medicalClearance;
-            this.financialSettlement = financialSettlement;
-            this.contractTermination = contractTermination;
-            this.playerConsent = playerConsent;
-            this.transferDocuments = transferDocuments;
-            this.leagueNotification = leagueNotification;
-        }
-
-        // Getters and setters
-        public String getPlayerName() { return playerName; }
-        public String getTransferType() { return transferType; }
-        public String getDestinationClub() { return destinationClub; }
-        public Double getTransferFee() { return transferFee; }
-        public LocalDate getTransferDate() { return transferDate; }
-        public String getStatus() { return status; }
-        public void setStatus(String status) { this.status = status; }
-
-        public boolean isMedicalClearance() { return medicalClearance; }
-        public void setMedicalClearance(boolean medicalClearance) { this.medicalClearance = medicalClearance; }
-
-        public boolean isFinancialSettlement() { return financialSettlement; }
-        public void setFinancialSettlement(boolean financialSettlement) {
-            this.financialSettlement = financialSettlement;
-        }
-
-        public boolean isContractTermination() { return contractTermination; }
-        public void setContractTermination(boolean contractTermination) {
-            this.contractTermination = contractTermination;
-        }
-
-        public boolean isPlayerConsent() { return playerConsent; }
-        public void setPlayerConsent(boolean playerConsent) { this.playerConsent = playerConsent; }
-
-        public boolean isTransferDocuments() { return transferDocuments; }
-        public void setTransferDocuments(boolean transferDocuments) {
-            this.transferDocuments = transferDocuments;
-        }
-
-        public boolean isLeagueNotification() { return leagueNotification; }
-        public void setLeagueNotification(boolean leagueNotification) {
-            this.leagueNotification = leagueNotification;
-        }
-    }
 }
