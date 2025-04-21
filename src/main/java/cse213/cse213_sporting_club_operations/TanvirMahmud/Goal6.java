@@ -8,7 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -16,13 +19,13 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class Goal6 {
-    // Player selection
+
     @FXML private ComboBox<String> playerComboBox;
     @FXML private TextField currentClubField;
     @FXML private TextField positionField;
     @FXML private TextField ageField;
 
-    // Loan details
+
     @FXML private TextField receivingClubField;
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
@@ -31,13 +34,13 @@ public class Goal6 {
     @FXML private TextField buyoutPriceField;
     @FXML private ComboBox<String> wagePaymentComboBox;
 
-    // Additional terms
+
     @FXML private CheckBox recallClauseCheckBox;
     @FXML private TextArea specialTermsArea;
     @FXML private CheckBox sendingClubNotifiedCheckBox;
     @FXML private CheckBox receivingClubNotifiedCheckBox;
 
-    // Loan deals table
+
     @FXML private TableView<LoanDeal> loanDealsTable;
     @FXML private TableColumn<LoanDeal, String> playerColumn;
     @FXML private TableColumn<LoanDeal, String> receivingClubColumn;
@@ -51,19 +54,9 @@ public class Goal6 {
 
     @FXML
     public void initialize() {
-        // Load players
-        if (Goal1_AllPlayers.playerList != null && !Goal1_AllPlayers.playerList.isEmpty()) {
-            players.addAll(Goal1_AllPlayers.playerList);
-        }
 
-        // Populate player names in combobox
-        ObservableList<String> playerNames = FXCollections.observableArrayList();
-        for (Player player : players) {
-            playerNames.add(player.getName());
-        }
-        playerComboBox.setItems(playerNames);
+        loadPlayersFromBinaryFile();
 
-        // Setup wage payment options
         wagePaymentComboBox.setItems(FXCollections.observableArrayList(
                 "100% by Receiving Club",
                 "50% by Each Club",
@@ -107,7 +100,7 @@ public class Goal6 {
             }
         });
 
-        // Add listener for buy option checkbox
+
         buyOptionCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
             buyoutPriceField.setDisable(!newVal);
             if (!newVal) {
@@ -115,41 +108,98 @@ public class Goal6 {
             }
         });
 
-        // Initialize sample data
-        addSampleLoanDeals();
+
+
     }
 
-    private void addSampleLoanDeals() {
-        loanDeals.add(new LoanDeal(
-                "Philippe Coutinho",
-                "Bayern Munich",
-                "Barcelona",
-                LocalDate.of(2023, 1, 1),
-                LocalDate.of(2023, 6, 30),
-                8500000,
-                true,
-                40000000,
-                "100% by Receiving Club",
-                true,
-                "Player cannot play against Barcelona in Champions League",
-                "Active"
-        ));
+    private void loadPlayersFromBinaryFile() {
+        // Try different potential file locations
+        String[] possiblePaths = {
+                "user.bin",                        // Current directory
+                "data/user.bin",                   // Data subdirectory
+                "../user.bin",                     // Parent directory
+                "src/main/resources/user.bin",     // Resources directory
+                "target/classes/user.bin",         // Compiled resources
+                System.getProperty("user.dir") + "/user.bin" // Absolute path
+        };
 
-        loanDeals.add(new LoanDeal(
-                "Donny van de Beek",
-                "Everton",
-                "Manchester United",
-                LocalDate.of(2023, 2, 1),
-                LocalDate.of(2023, 5, 31),
-                2000000,
-                false,
-                0,
-                "50% by Each Club",
-                false,
-                "No special terms",
-                "Active"
-        ));
+        boolean fileLoaded = false;
+
+        for (String path : possiblePaths) {
+            File file = new File(path);
+            if (file.exists()) {
+                try (ObjectInputStream ois = new ObjectInputStream(
+                        new FileInputStream(file))) {
+
+                    // Read object from file
+                    Object obj = ois.readObject();
+
+                    // Process based on what type of object was stored
+                    if (obj instanceof ArrayList<?>) {
+                        ArrayList<?> loadedList = (ArrayList<?>) obj;
+                        if (!loadedList.isEmpty() && loadedList.get(0) instanceof Player) {
+                            ArrayList<Player> playerList = (ArrayList<Player>) loadedList;
+                            players.addAll(playerList);
+
+                            // Populate player names in ComboBox
+                            ObservableList<String> playerNames = FXCollections.observableArrayList();
+                            for (Player player : players) {
+                                playerNames.add(player.getName());
+                            }
+                            playerComboBox.setItems(playerNames);
+
+                            System.out.println("Loaded " + players.size() + " players from " + path);
+                            fileLoaded = true;
+                            break;
+                        }
+                    }
+                    System.out.println("File found at " + path + " but content format not recognized");
+
+                } catch (IOException | ClassNotFoundException e) {
+                    System.out.println("Error reading from " + path + ": " + e.getMessage());
+                }
+            } else {
+                System.out.println("File not found: " + path);
+            }
+        }
+
+        if (!fileLoaded) {
+            System.out.println("Could not load players from binary file. Using default data if available.");
+            // Load from Goal1_AllPlayers as fallback
+            if (Goal1_AllPlayers.playerList != null && !Goal1_AllPlayers.playerList.isEmpty()) {
+                players.addAll(Goal1_AllPlayers.playerList);
+
+                // Populate player names
+                ObservableList<String> playerNames = FXCollections.observableArrayList();
+                for (Player player : players) {
+                    playerNames.add(player.getName());
+                }
+                playerComboBox.setItems(playerNames);
+            } else {
+                // Add some sample players as last resort
+                loadSamplePlayers();
+            }
+        }
     }
+
+    private void loadSamplePlayers() {
+        players.add(new Player("Messi", "35", "Forward", "95%", "$50M"));
+        players.add(new Player("Ronaldo", "38", "Forward", "93%", "$45M"));
+        players.add(new Player("Neymar", "31", "Forward", "88%", "$40M"));
+        players.add(new Player("Salah", "30", "Forward", "91%", "$35M"));
+        players.add(new Player("De Bruyne", "31", "Midfielder", "90%", "$38M"));
+
+        // Populate player names
+        ObservableList<String> playerNames = FXCollections.observableArrayList();
+        for (Player player : players) {
+            playerNames.add(player.getName());
+        }
+        playerComboBox.setItems(playerNames);
+
+        System.out.println("Using sample player data");
+    }
+
+
 
     private void updatePlayerDetails(String playerName) {
         for (Player player : players) {
@@ -333,7 +383,4 @@ public class Goal6 {
     public void goal6Dashboard(ActionEvent actionEvent) throws IOException {
         SceneSwitcher.switchTo("DashboardTransferWindowManager.fxml", actionEvent);
     }
-
-    // Model class for loan deals
-
 }
