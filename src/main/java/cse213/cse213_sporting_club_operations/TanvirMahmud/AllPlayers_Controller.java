@@ -87,6 +87,7 @@ public class AllPlayers_Controller {
                 table.setItems(FXCollections.observableArrayList(playerList));
 
                 messageLabel.setText("Successfully loaded data");
+                //practice
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
