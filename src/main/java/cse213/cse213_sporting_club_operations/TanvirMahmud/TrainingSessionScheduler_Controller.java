@@ -477,6 +477,7 @@ public class TrainingSessionScheduler_Controller {
             saveTrainingSessionsToFile();
         }
     }
+    //Done
 
     @FXML
     public void generateWeeklySchedule() {
